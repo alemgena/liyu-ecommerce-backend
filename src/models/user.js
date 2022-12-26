@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
-const crypto = require("crypto");
+const bcrypt = require("bcryptjs");
 const { toJSON, paginate } = require("./plugins");
 
 const userSchema = mongoose.Schema(
@@ -81,19 +81,14 @@ userSchema.statics.isEmailTaken = async function (email, excludeUserId) {
 };
 
 userSchema.methods.isPasswordMatch = async function (password) {
-  const hash = crypto
-    .pbkdf2Sync(password, this.salt, 10000, 512, "sha512")
-    .toString("hex");
-  return this.password === hash;
+  const user = this;
+  return bcrypt.compare(password, user.password);
 };
 
 userSchema.pre("save", async function (next) {
   const user = this;
   if (user.isModified("password")) {
-    salt = crypto.randomBytes(16).toString("hex");
-    user.password = crypto
-      .pbkdf2Sync(user.password, salt, 10000, 512, "sha512")
-      .toString("hex");
+    user.password = await bcrypt.hash(user.password, 14);
   }
   next();
 });
