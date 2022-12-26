@@ -7,3 +7,10 @@ exports.register = catchAsync(async (req, res) => {
   const tokens = await token.generateAuthTokens(user);
   res.status(httpStatus.CREATED).send({ user, tokens });
 });
+
+exports.login = catchAsync(async (req, res) => {
+  const { email, password } = req.body;
+  const user = await auth.loginUserWithEmailAndPassword(email, password);
+  const tokens = await token.generateAuthTokens(user);
+  res.send({ user, tokens });
+});

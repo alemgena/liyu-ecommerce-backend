@@ -8,3 +8,11 @@ exports.register = async (userBody) => {
   }
   return User.create(userBody);
 };
+
+exports.loginUserWithEmailAndPassword = async (email, password) => {
+  const user = await User.findOne({ email });
+  if (!user || !(await user.isPasswordMatch(password))) {
+    throw new ApiError(httpStatus.UNAUTHORIZED, "Incorrect email or password");
+  }
+  return user;
+};
