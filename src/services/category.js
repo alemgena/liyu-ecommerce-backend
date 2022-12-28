@@ -28,8 +28,8 @@ exports.update = async (id, categoryData) => {
     }
     const myquery = { _id: id };
     const newvalues = { $set: { state: "INACTIVE" } };
-    await Product.updateOne(myquery, newvalues);
-    return "category state changed to INACTIVE";
+    await Category.deleteOne(myquery);
+    return myquery;
   };
 
 
