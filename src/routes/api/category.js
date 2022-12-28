@@ -14,4 +14,9 @@ router.get(
   "/list",
   categoryController.list
 );
+
+router.patch(
+    "/update/:id",
+    categoryController.update
+  );
 module.exports = router;

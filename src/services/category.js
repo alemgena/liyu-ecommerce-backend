@@ -8,5 +8,17 @@ exports.list = async () => {
     return Category.find({});
 };
 
+exports.update = async (id, categoryData) => {
+    const category = await Category.findOne({ _id: id });
+    if (!category) {
+      throw new ApiError(httpStatus.BAD_REQUEST, "category not found");
+    }
+    const updatedCategory = await Category.findOneAndUpdate(
+      id,
+      { $set: categoryData },
+      { returnOriginal: false }
+    );
+    return updatedCategory;
+  };
 
 
