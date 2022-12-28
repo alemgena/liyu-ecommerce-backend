@@ -9,3 +9,7 @@ const udatedProduct=await product.updateProduct(req.params.id,req.body)
     const udatedProduct=await product.deleteProduct(req.params.id)
         res.status(200).send( {updatedProduct:udatedProduct} );
       });
+      exports.getProductById = catchAsync(async (req, res) => {
+        const data = await product.getProductById(req.params.id);
+        res.status(200).send( {product:data} );
+      });

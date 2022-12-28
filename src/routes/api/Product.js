@@ -12,4 +12,8 @@ router.patch(
     passport.authenticate('jwt',{session:false}),
     product.deleteProduct
   );
+  router.get("/product/:id",
+  passport.authenticate('jwt',{session:false}),
+  product.getProductById);
+
 module.exports=router
