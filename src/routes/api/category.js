@@ -10,5 +10,8 @@ router.post(
   categoryController.add
 );
 
-
+router.get(
+  "/list",
+  categoryController.list
+);
 module.exports = router;

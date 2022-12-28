@@ -7,4 +7,7 @@ exports.add = catchAsync(async (req, res) => {
   res.status(httpStatus.CREATED).send({data});
 });
 
-
+exports.list = catchAsync(async (req, res) => {
+const data = await category.list();
+res.status(200).send(data);
+});
