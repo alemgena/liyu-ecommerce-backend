@@ -7,5 +7,9 @@ router.patch(
     passport.authenticate('jwt',{session:false}),
     product.updateProduct
   );
-
+  router.delete(
+    "/product/:id",
+    passport.authenticate('jwt',{session:false}),
+    product.deleteProduct
+  );
 module.exports=router
