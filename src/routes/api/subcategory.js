@@ -11,4 +11,10 @@ router.post(
   subCategoryController.create
 );
 
+router.delete(
+  "/:id",
+  validate(subcategoryValidation.remove),
+  subCategoryController.remove
+);
+
 module.exports = router;

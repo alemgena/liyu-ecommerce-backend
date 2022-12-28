@@ -17,6 +17,15 @@ const create = {
   }),
 };
 
+const remove = {
+  params: Joi.object().keys({
+    id: Joi.string().min(4).required().messages({
+      "any.required": "id is a required field",
+    }),
+  }),
+};
+
 module.exports = {
   create,
+  remove,
 };
