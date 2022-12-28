@@ -16,3 +16,8 @@ exports.update = catchAsync(async (req, res) => {
     const udatedCategory = await category.update(req.params.id, req.body)
     res.status(200).send({ udatedCategory: udatedCategory });
 });
+
+exports.delete = catchAsync(async (req, res) => {
+    const deletedCategory=await category.delete(req.params.id)
+        res.status(200).send( {deletedCategory:deletedCategory} );
+      });

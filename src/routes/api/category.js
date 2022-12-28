@@ -19,4 +19,8 @@ router.patch(
     "/update/:id",
     categoryController.update
   );
+router.delete(
+    "/delete/:id",
+    categoryController.delete
+  );  
 module.exports = router;

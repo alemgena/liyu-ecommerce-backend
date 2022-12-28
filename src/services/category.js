@@ -21,4 +21,15 @@ exports.update = async (id, categoryData) => {
     return updatedCategory;
   };
 
+  exports.delete= async (id) => {
+    const category = await Category.findOne({ _id: id });
+    if (!category) {
+      throw new ApiError(httpStatus.BAD_REQUEST, "category not found");
+    }
+    const myquery = { _id: id };
+    const newvalues = { $set: { state: "INACTIVE" } };
+    await Product.updateOne(myquery, newvalues);
+    return "category state changed to INACTIVE";
+  };
+
 
