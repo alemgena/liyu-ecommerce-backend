@@ -14,3 +14,14 @@ exports.changePassword = async (userBody) => {
   console.log(user)
   return "You have changed your password successfully."
 };
+exports.activateAccount = async (id) => {
+    const user = await User.findOne({ _id: id  });
+    if (!user) {
+      throw new ApiError(httpStatus.BAD_REQUEST, " User Not Found ");
+    }
+    const myquery = { _id:id };
+    const newvalues = { $set: {  status:"ACTIVE"} };
+    await User.updateOne(myquery, newvalues);
+   
+    return "You have Activate  User Account  successfully."
+  };
