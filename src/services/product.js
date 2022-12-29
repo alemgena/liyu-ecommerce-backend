@@ -24,6 +24,7 @@ const deleteProduct = async (id) => {
     await Product.updateOne(myquery, newvalues);
     return "Product State is Change Into  INACTIVE";
   };
+  
   const getProductById = async (id) => {
     const product = await Product.findOne({ _id: id });
     if (!product) {
