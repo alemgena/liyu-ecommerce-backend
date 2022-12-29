@@ -11,4 +11,9 @@ router.post(
   authController.register
 );
 
+router.patch(
+  "/update/:id",
+  authController.update
+);
+
 module.exports = router;
