@@ -7,7 +7,7 @@ const config = require("./config/config");
 const { jwtStrategy } = require("./config/passport");
 const passport = require("passport");
 const morgan = require("./config/morgan");
-const routes = require("./routes/api");
+const routers = require("./routes/api");
 const { errorConverter, errorHandler } = require("./middlewares/error");
 const ApiError = require("./utils/ApiError");
 
@@ -40,7 +40,9 @@ app.use(passport.initialize());
 passport.use("jwt", jwtStrategy);
 
 // api api routes
-app.use("/api", routes);
+app.use("/api", routers.auth);
+app.use("/api/product", routers.product);
+app.use("/api/subcategories", routers.subcategory);
 
 // send back a 404 error for any unknown api request
 app.use((req, res, next) => {

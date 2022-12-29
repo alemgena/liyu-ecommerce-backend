@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const { paginate } = require("./plugins");
+const { paginate, toJSON } = require("./plugins");
 
 const subCategorySchema = mongoose.Schema(
   {
@@ -8,15 +8,12 @@ const subCategorySchema = mongoose.Schema(
       required: true,
       minlength: 3,
       trim: true,
-      unique: true,
     },
     description: {
       type: String,
       trim: true,
     },
-    deletedAt: {
-      type: Date,
-    },
+    deletedAt: { type: Date, default: null },
     imageURL: [
       {
         type: String,
@@ -33,6 +30,12 @@ subCategorySchema.index(
   { collation: { locale: "en", strength: 2 } }
 );
 
+subCategorySchema.index(
+  { name: 1 },
+  { unique: true, partialFilterExpression: { deletedAt: { $eq: null } } }
+);
+
 subCategorySchema.plugin(paginate);
+subCategorySchema.plugin(toJSON);
 
 module.exports = Subcategory = mongoose.model("Subcategory", subCategorySchema);
