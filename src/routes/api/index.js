@@ -1,7 +1,9 @@
 const auth = require("./auth");
 const product=require("./Product")
+const user=require('./user')
 const Routers = {
   auth,
-  product
+  product,
+  user
 };
 module.exports = Routers;
