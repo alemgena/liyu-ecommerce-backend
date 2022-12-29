@@ -1,6 +1,7 @@
 const httpStatus = require("http-status");
 const { Product } = require("../models");
 const ApiError = require("../utils/ApiError");
+
 const updateProduct = async (id, productData) => {
   const product = await Product.findOne({ _id: id });
   if (!product) {
@@ -17,6 +18,4 @@ const updateProduct = async (id, productData) => {
 
 module.exports = {
   updateProduct,
- 
-
 };
