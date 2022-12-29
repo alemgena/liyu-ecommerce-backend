@@ -14,6 +14,7 @@ const updateProduct = async (id, productData) => {
   return updatedProduct;
 };
 
+
 const deleteProduct = async (id) => {
     const product = await Product.findOne({ _id: id });
     if (!product) {
