@@ -15,4 +15,9 @@ router.get(
   "/list",
   productController.list
 );
+
+router.get(
+  "/view/:id",
+productController.view);
+
 module.exports = router;
