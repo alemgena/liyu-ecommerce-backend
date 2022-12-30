@@ -14,7 +14,7 @@ exports.add = catchAsync(async (req, res) => {
   res.status(httpStatus.CREATED).send({data});
 });
 exports.uploadProductImages = catchAsync(async (req, res) => {
- await uploadImage(req, res);
- const productImages=await product.uploadProductImages(req.files,req.params.id)
- res.status(httpStatus.CREATED).send({ productImages });
-});
+  await uploadImage(req, res);
+  const productImages=await product.uploadProductImages(req.files,req.params.id)
+  res.status(httpStatus.CREATED).send({ productImages });
+ });
