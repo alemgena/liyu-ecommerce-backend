@@ -1,10 +1,34 @@
-const uploadProductImages = async (files, id) => {
-    if (files.length === 0) {
-      throw new ApiError(httpStatus.BAD_REQUEST, "Pleas Select One File");
+const multer = require("multer");
+const { extname } = require("path");
+const util = require("util");
+
+const storage = multer.diskStorage({
+  destination: "src/uploads/images/",
+  filename: function (req, file, cb) {
+    cb(
+      null,
+      file.fieldname + "-" + Date.now() + file.originalname.match(/\..*$/)[0]
+    );
+  },
+});
+const multi_upload = multer({
+  storage,
+  limits: { fileSize: 1 * 1024 * 1024 }, // 1MB
+  fileFilter: (req, file, cb) => {
+    if (
+      file.mimetype == "image/png" ||
+      file.mimetype == "image/jpg" ||
+      file.mimetype == "image/jpeg"
+    ) {
+      cb(null, true);
+    } else {
+      cb(null, false);
+      const err = new Error("Only .png, .jpg and .jpeg format allowed!");
+      err.name = "ExtensionError";
+      return cb(err);
     }
-    for (let type of files) {
-      let imageUri = `images/${type.filename}`;
-      await ProductImage.create({ imageUri: imageUri ,productId:id});
-    }
-    return "Upload Images Successfully ";
-  };
+  },
+}).array("images", 20);
+
+let uploadImage = util.promisify(multi_upload);
+module.exports = uploadImage;

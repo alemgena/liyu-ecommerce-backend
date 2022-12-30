@@ -14,6 +14,9 @@ const updateProduct = async (id, productData) => {
   );
   return updatedProduct;
 };
+const add = async (productBody) => {
+  return Product.create(productBody);
+};
 const uploadProductImages = async (files, id) => {
   if (files.length === 0) {
     throw new ApiError(httpStatus.BAD_REQUEST, "Pleas Select One File");
@@ -24,10 +27,6 @@ const uploadProductImages = async (files, id) => {
   }
   return "Upload Images Successfully ";
 };
-const add = async (productBody) => {
-  return Product.create(productBody);
-};
-
 module.exports = {
   updateProduct,
   add,
