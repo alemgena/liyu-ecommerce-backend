@@ -18,6 +18,7 @@ const add = async (productBody) => {
   return Product.create(productBody);
 };
 const uploadProductImages = async (files, id) => {
+  
   if (files.length === 0) {
     throw new ApiError(httpStatus.BAD_REQUEST, "Pleas Select One File");
   }
