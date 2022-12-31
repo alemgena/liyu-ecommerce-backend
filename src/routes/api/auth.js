@@ -10,6 +10,7 @@ router.post(
   validate(authValidation.register),
   authController.register
 );
+router.post("/login", validate(authValidation.login), authController.login);
 
 router.patch(
   "/update/:id",

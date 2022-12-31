@@ -9,16 +9,11 @@ exports.register = async (userBody) => {
   return User.create(userBody);
 };
 
-
-exports.update = async (id, userData) => {
-  const user = await User.findOne({ _id: id });
-  if (!user) {
-    throw new ApiError(httpStatus.BAD_REQUEST, "user not found");
+exports.loginUserWithEmailAndPassword = async (email, password) => {
+  const user = await User.findOne({ email });
+  if (!user || !(await user.isPasswordMatch(password))) {
+    throw new ApiError(httpStatus.UNAUTHORIZED, "Incorrect email or password");
   }
-  const updatedUser = await User.findOneAndUpdate(
-    id,
-    { $set: userData },
-    { returnOriginal: false }
-  );
-  return updatedUser;
+  return user;
+
 };
