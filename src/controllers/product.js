@@ -11,3 +11,10 @@ exports.list = catchAsync(async (req, res) => {
 const data = await product.list();
 res.status(200).send(data);
 });
+
+exports.view = catchAsync(async (req, res) => {
+  const data = await product.view(req.params.id);
+  res.status(200).send( {product:data} );
+});
+
+
