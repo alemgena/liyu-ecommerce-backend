@@ -5,7 +5,7 @@ const pick = require("../utils/pick");
 const ApiError = require("../utils/ApiError");
 const { product } = require("../services");
 const uploadImage = require("../helper/uploadImages");
-const { product } = require("../services");
+// const { product } = require("../services");
 
 exports.add = catchAsync(async (req, res) => {
   const data = await product.add({ ...req.body });

@@ -4,7 +4,7 @@ const compression = require("compression");
 const cors = require("cors");
 const httpStatus = require("http-status");
 const config = require("./config/config");
-const { jwtStrategy } = require("./config/passport");
+const { jwtStrategy, googleStrategy } = require("./config/passport");
 const passport = require("passport");
 var bodyParser = require("body-parser");
 const morgan = require("./config/morgan");
@@ -35,6 +35,7 @@ app.options("*", cors());
 // jwt authentication
 app.use(passport.initialize());
 passport.use("jwt", jwtStrategy);
+<<<<<<< Updated upstream
 app.use(express.static("src/uploads"));
 // api api routes
 <<<<<<< HEAD
@@ -51,13 +52,30 @@ app.use('/api', routers.user)
 app.use("/api", routers.auth);
 app.use("/api/product", routers.product);
 app.use("/api/subcategories", routers.subcategory);
-
+app.use("/api/socials", routers.socials);
 >>>>>>> EB-55-Update-sub-category
 // send back a 404 error for any unknown api request
 >>>>>>> EB-29-Activate-User-Account
 app.use((req, res, next) => {
   next(new ApiError(res, httpStatus.NOT_FOUND, "Not found"));
 });
+=======
+passport.use("google", googleStrategy);
+
+passport.serializeUser((user, cb) => {
+  cb(null, user);
+});
+
+passport.deserializeUser((obj, cb) => {
+  cb(null, obj);
+});
+
+// api api routes
+app.use("/api/auth", routers.auth);
+app.use("/api/product", routers.product);
+app.use("/api/subcategories", routers.subcategory);
+app.use("/api", routers.socials);
+>>>>>>> Stashed changes
 
 // FIXME:
 // app.use('/api', routers.product)

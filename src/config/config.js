@@ -13,6 +13,17 @@ const envVarsSchema = Joi.object()
     JWT_ACCESS_EXPIRATION_MINUTES: Joi.number()
       .default(30)
       .description("minutes after which access tokens expire"),
+    GOOGLE_CLIENT_SECRET: Joi.string()
+      .required()
+      .description("google client secret"),
+    GOOGLE_CLIENT_ID: Joi.string().required().description("google client id"),
+    GOOGLE_CALLBACK: Joi.string()
+      .default("http://localhost:3000/api/google/callback")
+      .description("google callback"),
+    BASE_CLIENT_URL: Joi.string().default("http://localhost:3000"),
+    GOOGLE_USERINFO: Joi.string()
+      .required()
+      .description("google endpoint to get the user info"),
   })
   .unknown();
 
@@ -38,4 +49,9 @@ module.exports = {
     secret: envVars.JWT_SECRET,
     accessExpirationMinutes: envVars.JWT_ACCESS_EXPIRATION_MINUTES,
   },
+  GOOGLE_CLIENT_ID: envVars.GOOGLE_CLIENT_ID,
+  GOOGLE_CLIENT_SECRET: envVars.GOOGLE_CLIENT_SECRET,
+  GOOGLE_CALLBACK: envVars.GOOGLE_CALLBACK,
+  BASE_CLIENT_URL: envVars.BASE_CLIENT_URL,
+  GOOGLE_USERINFO: envVars.GOOGLE_USERINFO,
 };
