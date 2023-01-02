@@ -12,3 +12,8 @@ exports.remove = catchAsync(async (req, res) => {
   const result = await subcategory.remove(id);
   res.status(httpStatus.OK).send({ result });
 });
+
+exports.updateSubcategory = catchAsync(async (req, res) => {
+  const result = await subcategory.updateSubcategory(req.params.id, req.body);
+  res.send(result);
+});

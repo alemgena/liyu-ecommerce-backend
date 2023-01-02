@@ -17,4 +17,6 @@ router.delete(
   subCategoryController.remove
 );
 
+router.patch("/:id", subCategoryController.updateSubcategory);
+
 module.exports = router;

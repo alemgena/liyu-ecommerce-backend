@@ -9,4 +9,12 @@ const Routers = {
   user,
 };
 
+// FIXME: disscussion for route implementation
+
+// const subcategory = require("./subcategory");
+// const Routers = {
+//   auth,
+//   product,
+//   subcategory,
+// };
 module.exports = Routers;
