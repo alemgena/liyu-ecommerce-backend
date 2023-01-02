@@ -37,10 +37,17 @@ app.use(passport.initialize());
 passport.use("jwt", jwtStrategy);
 app.use(express.static("src/uploads"));
 // api api routes
+<<<<<<< HEAD
 app.use("/api", routers.auth);
 app.use("/api/product", routers.product);
 app.use("/api/category", routers.category);
 app.use("/api/auth", routers.auth);
+=======
+app.use('/api', routers.auth)
+app.use('/api', routers.product)
+app.use('/api', routers.user)
+// send back a 404 error for any unknown api request
+>>>>>>> EB-29-Activate-User-Account
 app.use((req, res, next) => {
   next(new ApiError(res, httpStatus.NOT_FOUND, "Not found"));
 });
