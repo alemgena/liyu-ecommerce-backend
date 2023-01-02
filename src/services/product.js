@@ -51,8 +51,28 @@ const uploadProductImages = async (files, id) => {
   }
   return "Upload Images Successfully ";
 };
+
+const deleteProduct = async (id) => {
+  const product = await Product.findOne({ _id: id });
+  if (!product) {
+    throw new ApiError(httpStatus.BAD_REQUEST, "product not found");
+  }
+  const myquery = { _id: id };
+  const newvalues = { $set: { state: "INACTIVE" } };
+  await Product.updateOne(myquery, newvalues);
+  return "Product State is Change Into  INACTIVE";
+};
+
+const getProductById = async (id) => {
+  const product = await Product.findOne({ _id: id });
+  if (!product) {
+    throw new ApiError(httpStatus.BAD_REQUEST, "product not found");
+  }
+  return product;
+};
 module.exports = {
   updateProduct,
-  add,
+  deleteProduct,
+  getProductById,
   uploadProductImages,
 };

@@ -51,3 +51,12 @@ exports.uploadProductImages = catchAsync(async (req, res) => {
   );
   res.status(httpStatus.CREATED).send({ productImages });
 });
+
+exports.deleteProduct = catchAsync(async (req, res) => {
+  const udatedProduct = await product.deleteProduct(req.params.id);
+  res.status(200).send({ updatedProduct: udatedProduct });
+});
+exports.getProductById = catchAsync(async (req, res) => {
+  const data = await product.getProductById(req.params.id);
+  res.status(200).send({ product: data });
+});
