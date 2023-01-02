@@ -1,8 +1,6 @@
 const mongoose = require("mongoose");
-
-// FIXME: for chooseing the right data models for product
-// const { paginate } = require("./plugins");
-// const Double = require("@mongoosejs/double");
+const { paginate, toJSON } = require("./plugins");
+const Double = require("@mongoosejs/double");
 
 // const productSchema = mongoose.Schema(
 //   {
@@ -50,9 +48,6 @@ const mongoose = require("mongoose");
 
 // productSchema.plugin(paginate);
 
-const validator = require("validator");
-const { toJSON, paginate } = require("./plugins");
-
 const productSchema = mongoose.Schema(
   {
     name: {
@@ -66,39 +61,49 @@ const productSchema = mongoose.Schema(
       required: true,
       trim: true,
     },
-    imagesUri: {
-      type: [String],
-    },
+    imagesURL: [
+      {
+        type: String,
+      },
+    ],
     price: {
-      type: Number,
+      type: mongoose.Schema.Types.Double,
       required: true,
       trim: true,
     },
     subCategory: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "subCategory",
       required: true,
-      trim: true,
+    },
+    seller: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
     },
     featured: {
       type: Boolean,
+      default: false,
     },
     premium: {
       type: Boolean,
+      default: false,
     },
-    countInStock: {
-      type: Number,
-      required: true,
-      trim: true,
-    },
+
     state: {
       type: String,
       default: "ACTIVE",
-      enum: ["ACTIVE", "INACTIVE", "OUTOFSTOCK"],
+      enum: ["ACTIVE", "DRAFT", "DELETED", "SUSPENDED", "BLOCKED", "SOLD"],
     },
   },
   {
     timestamps: true,
   }
+);
+
+productSchema.index(
+  { name: "text", description: "text" },
+  { collation: { locale: "en", strength: 2 } }
 );
 
 productSchema.plugin(toJSON);

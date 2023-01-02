@@ -5,6 +5,13 @@ const userController = require("../../controllers/user");
 
 const router = express.Router();
 
-router.patch("/changePassword",validate(userValidation.changePassword), userController.changeUserPassword);
-router.patch("/activateAccount/:id", userController.activateUserAccount);
+router.patch(
+  "/changePassword",
+  validate(userValidation.changePassword),
+  userController.changeUserPassword
+);
+router.patch("/:id/activateAccount", userController.activateUserAccount);
+
+// router.patch("/:id", userController.update);
+
 module.exports = router;

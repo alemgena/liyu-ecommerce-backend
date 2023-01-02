@@ -20,12 +20,6 @@ const add = {
       "any.required": "subCategory is a required field",
     }),
 
-    countInStock: Joi.number().required().messages({
-      "string.base": "countInStock must be a string",
-      "string.empty": "countInStock cannot be an empty field",
-
-      "any.required": "countInStock is a required field",
-    }),
     price: Joi.number().required().messages({
       "string.base": "price must be a string",
       "string.empty": "price cannot be an empty field",

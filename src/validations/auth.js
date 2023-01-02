@@ -41,6 +41,7 @@ const login = {
       "string.base": "password must be a string",
       "string.empty": "password is required",
       "any.required": "password is a required field",
+      "string.min": "password must be at least 6 characters.",
     }),
   }),
 };

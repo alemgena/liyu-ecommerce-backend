@@ -5,22 +5,22 @@ const categoryController = require("../../controllers/category");
 const router = express.Router();
 
 router.post(
-  "/add",
+  "",
  validate(categoryValidation.add),
   categoryController.add
 );
 
 router.get(
-  "/list",
+  "",
   categoryController.list
 );
 
 router.patch(
-    "/update/:id",
+    "/:id",
     categoryController.update
   );
 router.delete(
-    "/delete/:id",
+    "/:id",
     categoryController.delete
   );  
 module.exports = router;

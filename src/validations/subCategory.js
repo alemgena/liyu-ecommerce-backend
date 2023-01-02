@@ -1,6 +1,6 @@
 const Joi = require("joi");
 
-const create = {
+const add = {
   body: Joi.object().keys({
     name: Joi.string().min(4).required().messages({
       "string.base": "name must be a string",
@@ -17,15 +17,7 @@ const create = {
   }),
 };
 
-const remove = {
-  params: Joi.object().keys({
-    id: Joi.string().min(4).required().messages({
-      "any.required": "id is a required field",
-    }),
-  }),
-};
 
 module.exports = {
-  create,
-  remove,
+  add,
 };

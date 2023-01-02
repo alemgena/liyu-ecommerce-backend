@@ -12,14 +12,15 @@ exports.list = async () => {
 
 exports.view = async (id) => {
   const product = await Product.findOne({ _id: id });
+  if (!product) {
+    throw new ApiError(httpStatus.BAD_REQUEST, "product not found");
+  }
   var subCategory = product.subCategory;
   const relatedProducts = await Product.find()
     .where("subCategory")
     .equals(subCategory);
+
   var response = { product, relatedProducts };
-  if (!product) {
-    throw new ApiError(httpStatus.BAD_REQUEST, "product not found");
-  }
   return response;
 };
 
@@ -28,7 +29,7 @@ exports.queryProducts = async (filter, options) => {
   return products;
 };
 
-const updateProduct = async (id, productData) => {
+exports.update = async (id, productData) => {
   const product = await Product.findOne({ _id: id });
   if (!product) {
     throw new ApiError(httpStatus.BAD_REQUEST, "product not found");
@@ -41,7 +42,7 @@ const updateProduct = async (id, productData) => {
   return updatedProduct;
 };
 
-const uploadProductImages = async (files, id) => {
+exports.uploadProductImages = async (files, id) => {
   if (files.length === 0) {
     throw new ApiError(httpStatus.BAD_REQUEST, "Pleas Select One File");
   }
@@ -52,27 +53,13 @@ const uploadProductImages = async (files, id) => {
   return "Upload Images Successfully ";
 };
 
-const deleteProduct = async (id) => {
+exports.delete = async (id) => {
   const product = await Product.findOne({ _id: id });
   if (!product) {
     throw new ApiError(httpStatus.BAD_REQUEST, "product not found");
   }
   const myquery = { _id: id };
-  const newvalues = { $set: { state: "INACTIVE" } };
+  const newvalues = { $set: { state: "DELETED" } };
   await Product.updateOne(myquery, newvalues);
   return "Product State is Change Into  INACTIVE";
-};
-
-const getProductById = async (id) => {
-  const product = await Product.findOne({ _id: id });
-  if (!product) {
-    throw new ApiError(httpStatus.BAD_REQUEST, "product not found");
-  }
-  return product;
-};
-module.exports = {
-  updateProduct,
-  deleteProduct,
-  getProductById,
-  uploadProductImages,
 };

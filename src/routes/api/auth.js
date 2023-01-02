@@ -12,9 +12,4 @@ router.post(
 );
 router.post("/login", validate(authValidation.login), authController.login);
 
-router.patch(
-  "/update/:id",
-  authController.update
-);
-
 module.exports = router;
