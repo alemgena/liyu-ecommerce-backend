@@ -2,7 +2,7 @@ const express = require("express");
 const validate = require("../../middlewares/validate");
 const authValidation = require("../../validations/auth");
 const authController = require("../../controllers/auth");
-
+const passport=require('passport');
 const router = express.Router();
 
 router.post(
@@ -13,6 +13,7 @@ router.post(
 
 router.patch(
   "/update/:id",
+  passport.authenticate('jwt',{session:false}),
   authController.update
 );
 
