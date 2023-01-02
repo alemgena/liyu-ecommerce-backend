@@ -5,19 +5,12 @@ const productController = require("../../controllers/product");
 
 const router = express.Router();
 
-router.post(
-  "/add",
-  validate(productValidation.add),
-  productController.add
-);
+router.post("/add", validate(productValidation.add), productController.add);
 
-router.get(
-  "/list",
-  productController.list
-);
+router.get("/list", productController.list);
 
-router.get(
-  "/view/:id",
-productController.view);
+router.get("/view/:id", productController.view);
+
+router.get("", productController.queryProducts);
 
 module.exports = router;
