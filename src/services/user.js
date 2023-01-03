@@ -25,3 +25,17 @@ exports.activateAccount = async (id) => {
    
     return "You have Activate  User Account  successfully."
   };
+
+  exports.update = async (id, userData) => {
+    const user = await User.findOne({ _id: id });
+    if (!user) {
+      throw new ApiError(httpStatus.BAD_REQUEST, "user not found");
+    }
+    const updatedUser = await User.findOneAndUpdate(
+      id,
+      { $set: userData },
+      { returnOriginal: false }
+    );
+    return updatedUser;
+  };
+  

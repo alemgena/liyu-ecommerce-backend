@@ -3,10 +3,12 @@ const validate = require("../../middlewares/validate");
 const categoryValidation = require("../../validations/category");
 const categoryController = require("../../controllers/category");
 const router = express.Router();
+const passport = require('passport');
 
 router.post(
   "",
- validate(categoryValidation.add),
+  passport.authenticate("jwt", { session: false }),
+  validate(categoryValidation.add),
   categoryController.add
 );
 
@@ -16,11 +18,12 @@ router.get(
 );
 
 router.patch(
-    "/:id",
-    categoryController.update
-  );
+  "/:id", passport.authenticate("jwt", { session: false }),
+  categoryController.update
+);
+
 router.delete(
-    "/:id",
-    categoryController.delete
-  );  
+  "/:id", passport.authenticate("jwt", { session: false }),
+  categoryController.delete
+);
 module.exports = router;

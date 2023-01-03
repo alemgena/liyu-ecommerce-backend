@@ -6,7 +6,7 @@ const passport = require("passport");
 
 const router = express.Router();
 
-router.post("", validate(productValidation.add), productController.add);
+router.post("",  passport.authenticate("jwt", { session: false }), validate(productValidation.add), productController.add);
 
 router.get("", productController.list);
 

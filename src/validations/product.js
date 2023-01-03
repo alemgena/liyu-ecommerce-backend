@@ -19,11 +19,15 @@ const add = {
       "string.empty": "subCategory cannot be an empty field",
       "any.required": "subCategory is a required field",
     }),
+    seller: Joi.string().required().min(1).messages({
+      "string.base": "subCategory must be a string",
+      "string.empty": "subCategory cannot be an empty field",
+      "any.required": "subCategory is a required field",
+    }),
 
     price: Joi.number().required().messages({
-      "string.base": "price must be a string",
+      "string.base": "price must be a number",
       "string.empty": "price cannot be an empty field",
-
       "any.required": "price is a required field",
     }),
     featured: Joi.boolean(),
