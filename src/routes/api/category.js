@@ -3,7 +3,7 @@ const validate = require("../../middlewares/validate");
 const categoryValidation = require("../../validations/category");
 const categoryController = require("../../controllers/category");
 const router = express.Router();
-const passport = require('passport');
+const passport = require("passport");
 
 router.post(
   "",
@@ -26,4 +26,6 @@ router.delete(
   "/:id", passport.authenticate("jwt", { session: false }),
   categoryController.delete
 );
+
+router.get("/:id/subcategories", categoryController.listSubCategories);
 module.exports = router;
