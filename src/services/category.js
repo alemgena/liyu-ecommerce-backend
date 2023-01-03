@@ -21,7 +21,7 @@ exports.update = async (id, categoryData) => {
     return updatedCategory;
   };
 
-  exports.delete= async (id) => {
+exports.delete= async (id) => {
     const category = await Category.findOne({ _id: id });
     if (!category) {
       throw new ApiError(httpStatus.BAD_REQUEST, "category not found");
