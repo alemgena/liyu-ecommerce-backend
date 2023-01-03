@@ -8,6 +8,7 @@ const router = express.Router();
 router.patch(
   "/changePassword",
   validate(userValidation.changePassword),
+  passport.authenticate("jwt", { session: false }),
   userController.changeUserPassword
 );
 router.patch("/:id/activateAccount", userController.activateUserAccount);
