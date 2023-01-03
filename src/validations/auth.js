@@ -29,6 +29,24 @@ const register = {
   }),
 };
 
+const login = {
+  body: Joi.object().keys({
+    email: Joi.string().email().required().messages({
+      "string.base": "email must be a string",
+      "string.email": "must enter a valid email",
+      "string.empty": "email is required",
+      "any.required": "email is a required field",
+    }),
+    password: Joi.string().min(6).required().messages({
+      "string.base": "password must be a string",
+      "string.empty": "password is required",
+      "any.required": "password is a required field",
+      "string.min": "password must be at least 6 characters.",
+    }),
+  }),
+};
+
 module.exports = {
   register,
+  login,
 };

@@ -10,11 +10,6 @@ router.post(
   validate(authValidation.register),
   authController.register
 );
-
-router.patch(
-  "/update/:id",
-  passport.authenticate('jwt',{session:false}),
-  authController.update
-);
+router.post("/login", validate(authValidation.login), authController.login);
 
 module.exports = router;

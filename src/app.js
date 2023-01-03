@@ -6,8 +6,9 @@ const httpStatus = require("http-status");
 const config = require("./config/config");
 const { jwtStrategy } = require("./config/passport");
 const passport = require("passport");
+var bodyParser = require("body-parser");
 const morgan = require("./config/morgan");
-const routers = require('./routes/api')
+const routers = require("./routes/api");
 const { errorConverter, errorHandler } = require("./middlewares/error");
 const ApiError = require("./utils/ApiError");
 const app = express();
@@ -17,11 +18,11 @@ if (config.env !== "test") {
 }
 // parse json request body
 app.use(express.json());
+app.use(bodyParser.json());
 // parse urlencoded request body
 app.use(express.urlencoded({ extended: true }));
 
 // sanitize request data
-
 app.use(mongoSanitize());
 
 // gzip compression
@@ -34,19 +35,18 @@ app.options("*", cors());
 // jwt authentication
 app.use(passport.initialize());
 passport.use("jwt", jwtStrategy);
+app.use(express.static("src/uploads"));
 
 // api api routes
-app.use('/api', routers.auth)
-app.use('/api/product', routers.product)
-app.use('/api/category', routers.category)
-app.use('/api/auth', routers.auth)
-// app.use((req, res, next) => {
-//   next(new ApiError(res, httpStatus.NOT_FOUND, "Not found"));
-// });
-// send back a 404 error for any unknown api request
-app.get("/test",(req,res)=>{
-  console.log("yess")
-  })
+app.use("/api/auth", routers.auth);
+app.use("/api/products", routers.product);
+app.use("/api/categories", routers.category);
+app.use("/api/subcategories", routers.subCategory);
+
+app.use((req, res, next) => {
+  next(new ApiError(res, httpStatus.NOT_FOUND, "Not found"));
+});
+
 // convert error to ApiError, if needed
 app.use(errorConverter);
 
