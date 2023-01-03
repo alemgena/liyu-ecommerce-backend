@@ -36,34 +36,35 @@ const add = {
     }),
   }),
 };
-
 const update = {
   body: Joi.object().keys({
-    name: Joi.string().min(4).required().messages({
+    name: Joi.string().min(4).messages({
+      "string.empty": "product name cannot be an empty field",
       "string.base": "product name must be a string",
       "string.min": "product name must be longer than 4 characters",
     }),
-    description: Joi.string().required().min(4).messages({
+    description: Joi.string().min(4).messages({
+      "string.empty": "description name cannot be an empty field",
       "string.base": "description must be a string",
-
-      "string.min": "description must be longer than 4 characters",
+      "string.min"  : "description must be longer than 4 characters",
     }),
-    subCategory: Joi.string().required().min(1).messages({
+    subCategory: Joi.string().min(1).messages({
+      "string.empty": "subCategory name cannot be an empty field",
       "string.base": "subCategory must be a string",
     }),
-
-    countInStock: Joi.number().required().messages({
-      "string.base": "countInStock must be a string",
-    }),
-    price: Joi.number().required().messages({
-      "string.base": "price must be a string",
+    price: Joi.number().messages({
+      "number.base": "price must be a number",
     }),
     featured: Joi.boolean(),
     premium: Joi.boolean(),
-    state: Joi.string().required().min(4).messages({
-      "string.base": "state must be a string",
-      "string.min": "state must be longer than 4 characters",
-    }),
+    state: Joi.string()
+      .min(4)
+      .valid("ACTIVE", "DRAFT", "DELETED", "SUSPENDED", "BLOCKED", "SOLD")
+      .messages({
+        "string.empty": "state name cannot be an empty field",
+        "string.base": "state must be a string",
+        "string.min": "state must be longer than 4 characters",
+      }),
   }),
 };
 

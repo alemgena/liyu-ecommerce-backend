@@ -29,17 +29,18 @@ exports.queryProducts = async (filter, options) => {
   return products;
 };
 
+
 exports.update = async (id, productData) => {
-  const product = await Product.findOne({ _id: id });
+  const product = await Product.findById(id);
   if (!product) {
-    throw new ApiError(httpStatus.BAD_REQUEST, "product not found");
+    throw new ApiError(httpStatus.NOT_FOUND, "product not found");
   }
-  const updatedProduct = await Product.findOneAndUpdate(
-    id,
-    { $set: productData },
-    { returnOriginal: false }
-  );
-  return updatedProduct;
+  let keys = Object.keys(productData);
+  keys.map((x) => {
+    product[x] = productData[x];
+  });
+  await product.save();
+  return product;
 };
 
 exports.uploadProductImages = async (files, id) => {
@@ -53,13 +54,21 @@ exports.uploadProductImages = async (files, id) => {
   return "Upload Images Successfully ";
 };
 
+
 exports.delete = async (id) => {
-  const product = await Product.findOne({ _id: id });
+  const product = await Product.findById(id);
   if (!product) {
-    throw new ApiError(httpStatus.BAD_REQUEST, "product not found");
+    throw new ApiError(httpStatus.NOT_FOUND, "product not found");
   }
-  const myquery = { _id: id };
-  const newvalues = { $set: { state: "DELETED" } };
-  await Product.updateOne(myquery, newvalues);
-  return "Product State is Change Into  INACTIVE";
+  const state = {
+    state: "DELETED",
+  };
+  let keys = Object.keys(state);
+  keys.map((x) => {
+    product[x] = state[x];
+  });
+  await product.save();
+  return product;
 };
+
+
