@@ -14,5 +14,13 @@ exports.activateUserAccount = catchAsync(async (req, res) => {
     const data = await user.update(req.params.id, req.body)
     res.status(200).send({ data: data });
   });
+
+
+  exports.view = catchAsync(async (req, res) => {
+    const data = await user.view(req.params.id)
+    res.status(200).send({ data: data });
+  });
+  
+  
   
   
