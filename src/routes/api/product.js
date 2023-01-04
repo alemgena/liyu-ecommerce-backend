@@ -17,7 +17,7 @@ router.get("", productController.queryProducts);
 router.patch(
   "/:id",
   passport.authenticate("jwt", { session: false }),
-  validate(productValidation.add),
+  validate(productValidation.update),
   productController.update
 );
 
