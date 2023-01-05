@@ -19,6 +19,11 @@ const subCategorySchema = mongoose.Schema(
         type: String,
       },
     ],
+    category: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Category",
+      required: true,
+    },
   },
   {
     timestamps: true,
@@ -38,4 +43,4 @@ subCategorySchema.index(
 subCategorySchema.plugin(paginate);
 subCategorySchema.plugin(toJSON);
 
-module.exports = Subcategory = mongoose.model("Subcategory", subCategorySchema);
+module.exports = subCategory = mongoose.model("subCategory", subCategorySchema);

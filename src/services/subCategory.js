@@ -1,11 +1,11 @@
-const { Subcategory } = require("../models");
+const { subCategory } = require("../models");
 
-exports.create = async (body) => {
-  return Subcategory.create(body);
+exports.add = async (body) => {
+  return suCategory.create(body);
 };
 
-exports.remove = async (id) => {
-  const subcategory = await Subcategory.findById(id);
+exports.delete = async (id) => {
+  const subcategory = await subCategory.findById(id);
   if (!subcategory) {
     throw new ApiError(httpStatus.NOT_FOUND, "sub category not found");
   }
@@ -14,8 +14,8 @@ exports.remove = async (id) => {
   return subcategory;
 };
 
-exports.updateSubcategory = async (id, updateBody) => {
-  const subcategory = await Subcategory.findById(id);
+exports.update = async (id, updateBody) => {
+  const subcategory = await subCategory.findById(id);
   if (!subcategory) {
     throw new ApiError(httpStatus.NOT_FOUND, "sub category not found");
   }
