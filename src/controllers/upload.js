@@ -8,5 +8,9 @@ exports.upload = catchAsync(async (req, res) => {
   if (!req.files) {
     throw new ApiError(httpStatus.BAD_REQUEST, "upload atleast one image");
   }
-  res.status(httpStatus.OK).send({ images: req.files });
+  var images = [];
+  for (let type of req.files) {
+    images.push(`images/${req.params.type}/${type.filename}`);
+  }
+  res.status(httpStatus.OK).send({ images });
 });
