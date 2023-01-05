@@ -1,7 +1,7 @@
 const { subCategory } = require("../models");
 
 exports.add = async (body) => {
-  return suCategory.create(body);
+  return subCategory.create(body);
 };
 
 exports.delete = async (id) => {
