@@ -43,6 +43,7 @@ app.use("/api/products", routers.product);
 app.use("/api/categories", routers.category);
 app.use("/api/subcategories", routers.subCategory);
 app.use("/api/socials", routers.socials);
+app.use("/api/upload", routers.upload);
 
 app.use((req, res, next) => {
   next(new ApiError(res, httpStatus.NOT_FOUND, "Not found"));

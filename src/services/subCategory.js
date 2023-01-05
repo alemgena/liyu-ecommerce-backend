@@ -19,7 +19,9 @@ exports.update = async (id, updateBody) => {
   if (!subcategory) {
     throw new ApiError(httpStatus.NOT_FOUND, "sub category not found");
   }
-
+  if (updateBody.imageURL) {
+    updateBody.imageURL = [...subcategory.imageURL, ...updateBody.imageURL];
+  }
   Object.assign(subcategory, updateBody);
   await subcategory.save();
   return subcategory;
