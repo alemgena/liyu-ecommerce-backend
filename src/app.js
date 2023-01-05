@@ -44,6 +44,7 @@ app.use("/api/categories", routers.category);
 app.use("/api/subcategories", routers.subCategory);
 app.use("/api/users", routers.user);
 app.use("/api/favourites", routers.favourite);
+app.use("/api/faqs", routers.faq);
 
 app.use((req, res, next) => {
   next(new ApiError(res, httpStatus.NOT_FOUND, "Not found"));

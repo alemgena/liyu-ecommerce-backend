@@ -4,6 +4,7 @@ const category = require("./category");
 const user = require("./user");
 const subCategory = require("./subCategory");
 const favourite = require("./favourite");
+const faq = require("./faq");
 
 const Routers = {
   auth,
@@ -11,7 +12,8 @@ const Routers = {
   category,
   user,
   subCategory,
-  favourite
+  favourite,
+  faq
 };
 
 module.exports = Routers;
