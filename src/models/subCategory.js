@@ -40,6 +40,14 @@ subCategorySchema.index(
   { unique: true, partialFilterExpression: { deletedAt: { $eq: null } } }
 );
 
+subCategorySchema.statics.isNameTaken = async function (
+  name,
+  excludeSubCategoryId
+) {
+  const data = await this.findOne({ name, _id: { $ne: excludeSubCategoryId } });
+  return !!data;
+};
+
 subCategorySchema.plugin(paginate);
 subCategorySchema.plugin(toJSON);
 
