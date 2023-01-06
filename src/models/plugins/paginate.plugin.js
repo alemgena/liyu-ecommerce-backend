@@ -41,22 +41,26 @@ const paginate = (schema) => {
         ? parseInt(options.page, 10)
         : 1;
     const skip = (page - 1) * limit;
-    const countPromise = this.countDocuments(filter).exec();
+    const newFileter = {
+      filter,
+      ...(filter.search != undefined && {
+        $text: {
+          $search: filter.search,
+        },
+      }),
+    };
+    const countPromise = this.countDocuments(newFileter).exec();
 
-    let docsPromise = this.find(
-      filter.search != undefined
-        ? {
-            $text: {
-              $search: filter.search,
-            },
-            ...filter,
-          }
-        : filter
-    )
-      .collation({ locale: "en", strength: 2 })
-      .sort(sort)
-      .skip(skip)
-      .limit(limit);
+    let docsPromise = this.find(newFileter)
+      .collation({
+        locale: "en",
+        strength: 2,
+      })
+      .sort(sort);
+
+    if (!(options.paginate === "false")) {
+      docsPromise = docsPromise.skip(skip).limit(limit);
+    }
 
     if (options.populate) {
       options.populate.split(",").forEach((populateOption) => {
@@ -76,10 +80,7 @@ const paginate = (schema) => {
       const totalPages = Math.ceil(totalResults / limit);
       const result = {
         results,
-        page,
-        limit,
-        totalPages,
-        totalResults,
+        meta_data: { page, limit, totalPages, totalResults, filter, sort },
       };
       return Promise.resolve(result);
     });
