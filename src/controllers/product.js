@@ -3,6 +3,7 @@ const catchAsync = require("../utils/catchAsync");
 const pick = require("../utils/pick");
 const { product } = require("../services");
 const uploadImage = require("../helper/uploadImages");
+const SuccessResponse = require("../utils/successResponse");
 
 exports.add = catchAsync(async (req, res) => {
   const data = await product.add({ ...req.body });
@@ -30,9 +31,12 @@ exports.queryProducts = catchAsync(async (req, res) => {
     "price",
     "allergies",
   ]);
-  const options = pick(req.query, ["sortBy", "limit", "page"]);
+  const options = pick(req.query, ["sortBy", "limit", "page", "paginate"]);
   const data = await product.queryProducts(filter, options);
-  res.status(httpStatus.OK).send({ data });
+
+  res
+    .status(httpStatus.OK)
+    .send(new SuccessResponse(httpStatus.OK, "", data.results, data.metaData));
 });
 
 exports.update = catchAsync(async (req, res) => {
