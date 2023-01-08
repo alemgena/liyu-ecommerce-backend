@@ -21,3 +21,8 @@ exports.delete = catchAsync(async (req, res) => {
     const deletedCategory = await category.delete(req.params.id)
     res.status(200).send({ deletedCategory: deletedCategory });
 });
+
+exports.listSubCategories = catchAsync(async (req, res) => {
+  const subCategories = await category.listSubCategories(req.params.id);
+  res.status(200).send({ subCategories });
+});

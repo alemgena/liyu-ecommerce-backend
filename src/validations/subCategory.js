@@ -14,9 +14,13 @@ const add = {
       "string.min": "description must be longer than 4 characters",
       "any.required": "description is a required field",
     }),
+    category: Joi.string().required().messages({
+      "string.base": "category must be a string",
+      "string.empty": "category cannot be an empty field",
+      "any.required": "category is a required field",
+    }),
   }),
 };
-
 
 module.exports = {
   add,

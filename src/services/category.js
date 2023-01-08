@@ -32,4 +32,9 @@ exports.delete= async (id) => {
     return myquery;
   };
 
-
+exports.listSubCategories = async (id) => {
+  return await subCategory.find(
+    { category: id, deletedAt: null },
+    { category: 0, deletedAt: 0 }
+  );
+}; 
