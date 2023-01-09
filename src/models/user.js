@@ -23,6 +23,7 @@ const userSchema = mongoose.Schema(
     auth_type: {
       type: String,
       enum: ["SOCIAL", "EMAIL"],
+      default: "EMAIL",
     },
     allergies: [
       {
@@ -47,9 +48,14 @@ const userSchema = mongoose.Schema(
         }
       },
     },
+    imageURL: [
+      {
+        type: String,
+      },
+    ],
     password: {
       type: String,
-      required: true,
+      // required: true,
       trim: true,
       minlength: 6,
       validate(value) {

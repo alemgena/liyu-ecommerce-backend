@@ -9,6 +9,10 @@ router.post("", validate(subCategoryValidation.add), subCategoryController.add);
 
 router.delete("/:id", subCategoryController.delete);
 
-router.patch("/:id", subCategoryController.update);
+router.patch(
+  "/:id",
+  validate(subCategoryValidation.update),
+  subCategoryController.update
+);
 
 module.exports = router;

@@ -1,3 +1,5 @@
+var GoogleOneTapStrategy =
+  require("passport-google-one-tap").GoogleOneTapStrategy;
 const { Strategy: JwtStrategy, ExtractJwt } = require("passport-jwt");
 const config = require("./config");
 const { User } = require("../models");

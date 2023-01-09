@@ -3,6 +3,8 @@ const product = require("./product");
 const category = require("./category");
 const user = require("./user");
 const subCategory = require("./subCategory");
+const socials = require("./socials");
+const upload = require("./upload");
 
 const Routers = {
   auth,
@@ -10,6 +12,8 @@ const Routers = {
   category,
   user,
   subCategory,
+  socials,
+  upload,
 };
 
 module.exports = Routers;

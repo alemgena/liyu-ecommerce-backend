@@ -4,7 +4,7 @@ const compression = require("compression");
 const cors = require("cors");
 const httpStatus = require("http-status");
 const config = require("./config/config");
-const { jwtStrategy } = require("./config/passport");
+const { jwtStrategy, googleStrategy } = require("./config/passport");
 const passport = require("passport");
 var bodyParser = require("body-parser");
 const morgan = require("./config/morgan");
@@ -43,6 +43,8 @@ app.use("/api/products", routers.product);
 app.use("/api/categories", routers.category);
 app.use("/api/subcategories", routers.subCategory);
 app.use("/api/users",routers.user)
+app.use("/api/socials", routers.socials);
+app.use("/api/upload", routers.upload);
 
 app.use((req, res, next) => {
   next(new ApiError(res, httpStatus.NOT_FOUND, "Not found"));
