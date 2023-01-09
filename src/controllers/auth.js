@@ -14,3 +14,8 @@ exports.login = catchAsync(async (req, res) => {
   const tokens = await token.generateAuthTokens(user);
   res.send({ user, tokens });
 });
+exports.emailVerification = catchAsync(async (req, res) => {
+  const { email, code } = req.body;
+  const user = await auth.emailVerify(email, code);
+  res.send({ user });
+});
