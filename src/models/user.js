@@ -31,6 +31,9 @@ const userSchema = mongoose.Schema(
         trim: true,
       },
     ],
+    code:{
+      type:String
+      },
     status: {
       type: String,
       default: "ACTIVE",
