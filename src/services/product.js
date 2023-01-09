@@ -53,8 +53,6 @@ exports.uploadProductImages = async (files, id) => {
   }
   return "Upload Images Successfully ";
 };
-
-
 exports.delete = async (id) => {
   const product = await Product.findById(id);
   if (!product) {
