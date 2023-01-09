@@ -45,6 +45,7 @@ app.use("/api/subcategories", routers.subCategory);
 app.use("/api/users",routers.user)
 app.use("/api/socials", routers.socials);
 app.use("/api/upload", routers.upload);
+app.use("/api/newsletters", routers.newsLetter);
 
 app.use((req, res, next) => {
   next(new ApiError(res, httpStatus.NOT_FOUND, "Not found"));

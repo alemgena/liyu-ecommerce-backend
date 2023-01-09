@@ -20,7 +20,7 @@ const errorConverter = (err, req, res, next) => {
 
 // eslint-disable-next-line no-unused-vars
 const errorHandler = (err, req, res, next) => {
-  let { statusCode, message } = err;
+  let { statusCode, message, fieldError } = err;
   if (config.env === "production" && !err.isOperational) {
     statusCode = httpStatus.INTERNAL_SERVER_ERROR;
     message = httpStatus[httpStatus.INTERNAL_SERVER_ERROR];
@@ -31,16 +31,8 @@ const errorHandler = (err, req, res, next) => {
   const response = {
     code: statusCode,
     message,
-    ...(config.env === "development" && { stack: err.error.stack }),
-    field_error:
-      err.error instanceof Joi.ValidationError
-        ? err.error.details.map((details) => {
-            return {
-              name: details.context.label,
-              message: details.message,
-            };
-          })
-        : [],
+    fieldError,
+    ...(config.env === "development" && { stack: err.stack }),
   };
 
   if (config.env === "development") {
