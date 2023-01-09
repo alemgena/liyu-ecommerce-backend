@@ -42,8 +42,9 @@ app.use("/api/auth", routers.auth);
 app.use("/api/products", routers.product);
 app.use("/api/categories", routers.category);
 app.use("/api/subcategories", routers.subCategory);
-app.use("/api/users",routers.user)
-app.use("/api/spams",routers.spam)
+app.use("/api/users",routers.user);
+app.use("/api/spams",routers.spam);
+app.use("/api/notifications",routers.notification)
 
 
 app.use((req, res, next) => {

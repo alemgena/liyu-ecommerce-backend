@@ -4,6 +4,7 @@ const category = require("./category");
 const user = require("./user");
 const subCategory = require("./subCategory");
 const spam = require("./spam");
+const notification = require("./notification");
 
 const Routers = {
   auth,
@@ -11,7 +12,8 @@ const Routers = {
   category,
   user,
   subCategory,
-  spam
+  spam,
+  notification
 };
 
 module.exports = Routers;
