@@ -43,6 +43,8 @@ app.use("/api/products", routers.product);
 app.use("/api/categories", routers.category);
 app.use("/api/subcategories", routers.subCategory);
 app.use("/api/users",routers.user)
+app.use("/api/spams",routers.spam)
+
 
 app.use((req, res, next) => {
   next(new ApiError(res, httpStatus.NOT_FOUND, "Not found"));
