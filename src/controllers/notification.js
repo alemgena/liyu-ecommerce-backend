@@ -1,6 +1,7 @@
 const httpStatus = require("http-status");
 const catchAsync = require("../utils/catchAsync");
 const { notification } = require("../services");
+const axios = require('axios');
 
 exports.add = catchAsync(async (req, res) => {
     const data = await notification.add({ ...req.body });
@@ -20,4 +21,20 @@ exports.update = catchAsync(async (req, res) => {
 exports.delete = catchAsync(async (req, res) => {
     const deletedNotification = await notification.delete(req.params.id)
     res.status(200).send({ deletedNotification: deletedNotification });
+});
+
+exports.sendNotification = catchAsync(async (req, res) => {
+    var notification = req.body.notification;
+    var to = req.body.to;
+
+    axios.post('/https://fcm.googleapis.com/fcm/send', {
+        notification: notification,
+        to: to
+      })
+      .then(function (response) {
+        response.status(200).send({ notification: notification });
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
 });

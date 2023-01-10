@@ -4,18 +4,18 @@ const { toJSON, paginate } = require("./plugins");
 
 const notificationSchema = mongoose.Schema(
   {
-    content: {
+    title: {
       type: String,
       required: true,
       minlength: 3,
       trim: true,
     },
-    recieverId: {
+    body: {
       type: String,
       required: true,
       trim: true,
     },
-    status: {
+    click_action: {
         type: String,
         required: false,
         trim: true,
