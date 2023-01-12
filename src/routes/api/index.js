@@ -6,6 +6,7 @@ const subCategory = require("./subCategory");
 const socials = require("./socials");
 const upload = require("./upload");
 const newsLetter = require("./newsLetter");
+const productVariant = require("./variant");
 
 const Routers = {
   auth,
@@ -16,6 +17,7 @@ const Routers = {
   socials,
   upload,
   newsLetter,
+  productVariant,
 };
 
 module.exports = Routers;

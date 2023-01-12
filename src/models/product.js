@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const { paginate, toJSON } = require("./plugins");
 const Double = require("@mongoosejs/double");
 
+
 const productSchema = mongoose.Schema(
   {
     name: {
@@ -21,7 +22,7 @@ const productSchema = mongoose.Schema(
       },
     ],
     price: {
-      type: mongoose.Schema.Types.Double,
+      type: Double,
       required: true,
       trim: true,
     },
