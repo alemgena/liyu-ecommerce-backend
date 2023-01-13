@@ -19,3 +19,8 @@ exports.emailVerification = catchAsync(async (req, res) => {
   const user = await auth.emailVerify(email, code);
   res.send({ user });
 });
+exports.userForgetPassword = catchAsync(async (req, res) => {
+  const { email} = req.body;
+  const user = await auth.forgetPassword(email);
+  res.send({ user });
+});
