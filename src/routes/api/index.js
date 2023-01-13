@@ -6,7 +6,6 @@ const subCategory = require("./subCategory");
 const socials = require("./socials");
 const upload = require("./upload");
 const newsLetter = require("./newsLetter");
-
 const Routers = {
   auth,
   product,
