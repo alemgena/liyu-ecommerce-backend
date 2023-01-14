@@ -28,8 +28,6 @@ exports.queryProducts = async (filter, options) => {
   const products = await Product.paginate(filter, options);
   return products;
 };
-
-
 exports.update = async (id, productData) => {
   const product = await Product.findById(id);
   if (!product) {
