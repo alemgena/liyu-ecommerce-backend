@@ -19,6 +19,7 @@ router.get(
 
 router.patch(
   "/:id", passport.authenticate("jwt", { session: false }),
+  validate(categoryValidation.update),
   categoryController.update
 );
 
