@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 const auth = require("./auth");
 const product = require("./product");
 const category = require("./category");
@@ -10,6 +9,7 @@ const newsLetter = require("./newsLetter");
 const spam = require("./spam");
 const favourite = require("./favourite");
 const faq = require("./faq");
+const notification = require("./notification");
 const Routers = {
   auth,
   product,
@@ -21,28 +21,8 @@ const Routers = {
   newsLetter,
   spam,
   favourite,
-  faq
-};
-
-module.exports = Routers;
-=======
-const auth = require("./auth");
-const product = require("./product");
-const category = require("./category");
-const user = require("./user");
-const subCategory = require("./subCategory");
-const spam = require("./spam");
-const notification = require("./notification");
-
-const Routers = {
-  auth,
-  product,
-  category,
-  user,
-  subCategory,
-  spam,
+  faq,
   notification
 };
 
 module.exports = Routers;
->>>>>>> EB-22-Notification
