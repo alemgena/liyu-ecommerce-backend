@@ -48,6 +48,7 @@ app.use("/api/upload", routers.upload);
 app.use("/api/newsletters", routers.newsLetter);
 app.use("/api/favourites", routers.favourite);
 app.use("/api/faqs", routers.faq);
+app.use("/api/notifications",routers.notification)
 
 app.use((req, res, next) => {
   next(new ApiError(res, httpStatus.NOT_FOUND, "Not found"));
