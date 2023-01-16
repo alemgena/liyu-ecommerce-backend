@@ -11,7 +11,6 @@ router.post(
   validate(categoryValidation.add),
   categoryController.add
 );
-
 router.get(
   "",
   categoryController.list
