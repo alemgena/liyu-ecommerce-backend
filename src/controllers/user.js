@@ -12,6 +12,12 @@ exports.activateUserAccount = catchAsync(async (req, res) => {
     res.status(200).send( {data:data} );
   });
 
+  exports.suspendUserAccount = catchAsync(async (req, res) => {
+    console.log(req.payload)
+      const data = await user.suspendAccount(req.params.id);
+      res.status(200).send( {data:data} );
+    });
+
   exports.update = catchAsync(async (req, res) => {
     const data = await user.update(req.params.id, req.body)
     res.status(200).send({ data: data });

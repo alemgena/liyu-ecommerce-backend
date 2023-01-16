@@ -15,4 +15,5 @@ router.patch("/:id/activateAccount", userController.activateUserAccount);
 
 router.patch("/:id",  passport.authenticate("jwt", { session: false }), userController.update);
 
+router.patch("/:id/suspendAccount", userController.suspendUserAccount);
 module.exports = router;
