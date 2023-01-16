@@ -43,7 +43,6 @@ const productSchema = mongoose.Schema(
       type: Boolean,
       default: false,
     },
-
     state: {
       type: String,
       default: "ACTIVE",
