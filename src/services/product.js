@@ -23,10 +23,13 @@ exports.view = async (id) => {
   var response = { product, relatedProducts };
   return response;
 };
+
 exports.queryProducts = async (filter, options) => {
   const products = await Product.paginate(filter, options);
   return products;
 };
+
+
 exports.update = async (id, productData) => {
   const product = await Product.findById(id);
   if (!product) {
@@ -39,6 +42,7 @@ exports.update = async (id, productData) => {
   await product.save();
   return product;
 };
+
 exports.uploadProductImages = async (files, id) => {
   if (files.length === 0) {
     throw new ApiError(httpStatus.BAD_REQUEST, "Pleas Select One File");
@@ -54,7 +58,13 @@ exports.delete = async (id) => {
   if (!product) {
     throw new ApiError(httpStatus.NOT_FOUND, "product not found");
   }
-  product.state='DELETED'
+  const state = {
+    state: "DELETED",
+  };
+  let keys = Object.keys(state);
+  keys.map((x) => {
+    product[x] = state[x];
+  });
   await product.save();
   return product;
 };

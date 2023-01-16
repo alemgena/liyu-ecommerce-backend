@@ -46,6 +46,9 @@ app.use("/api/users",routers.user)
 app.use("/api/socials", routers.socials);
 app.use("/api/upload", routers.upload);
 app.use("/api/newsletters", routers.newsLetter);
+app.use("/api/favourites", routers.favourite);
+app.use("/api/faqs", routers.faq);
+app.use("/api/notifications",routers.notification)
 app.use("/api/advertisement",routers.advertisement)
 app.use("/api/adds", routers.adds);
 app.use((req, res, next) => {

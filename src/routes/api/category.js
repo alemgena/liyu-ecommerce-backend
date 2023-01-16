@@ -11,7 +11,6 @@ router.post(
   validate(categoryValidation.add),
   categoryController.add
 );
-
 router.get(
   "",
   categoryController.list
@@ -19,6 +18,7 @@ router.get(
 
 router.patch(
   "/:id", passport.authenticate("jwt", { session: false }),
+  validate(categoryValidation.update),
   categoryController.update
 );
 

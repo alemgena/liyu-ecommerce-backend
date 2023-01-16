@@ -6,6 +6,10 @@ const subCategory = require("./subCategory");
 const socials = require("./socials");
 const upload = require("./upload");
 const newsLetter = require("./newsLetter");
+const spam = require("./spam");
+const favourite = require("./favourite");
+const faq = require("./faq");
+const notification = require("./notification");
 const advertisement=require("./houseAdvertisement")
 const adds=require('./adds')
 const Routers = {
@@ -18,6 +22,10 @@ const Routers = {
   socials,
   upload,
   newsLetter,
+  spam,
+  favourite,
+  faq,
+  notification,
   advertisement
 };
 
