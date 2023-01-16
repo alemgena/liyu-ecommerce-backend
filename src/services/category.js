@@ -50,7 +50,6 @@ exports.list = async () => {
       });
     });
   };
-
 exports.listSubCategories = async (id) => {
   return await subCategory.find(
     { category: id, deletedAt: null },
