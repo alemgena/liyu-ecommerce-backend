@@ -18,9 +18,8 @@ exports.activateAccount = async (id) => {
     }
     user.status='ACTIVE'
     await user.save();
-    return "You have Activate  User Account  successfully."
+    return user
   };
- 
   exports.update = async (id, userData) => {
     const user = await User.findOne({ _id: id });
     if (!user) {
