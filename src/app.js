@@ -10,6 +10,7 @@ var bodyParser = require("body-parser");
 const morgan = require("./config/morgan");
 const routers = require("./routes/api");
 const { errorConverter, errorHandler } = require("./middlewares/error");
+const ActivityLog = require("./middlewares/activityLog");
 const ApiError = require("./utils/ApiError");
 const app = express();
 if (config.env !== "test") {
@@ -32,24 +33,36 @@ app.use(compression());
 app.use(cors());
 app.options("*", cors());
 
+// activity log
+app.use(ActivityLog());
+
+const originalSend = app.response.send;
+app.response.send = function sendOverride(body) {
+  this.responseBody = body;
+  return originalSend.call(this, body);
+};
 // jwt authentication
 app.use(passport.initialize());
 passport.use("jwt", jwtStrategy);
 app.use(express.static("src/uploads"));
-
 // api api routes
 app.use("/api/auth", routers.auth);
 app.use("/api/products", routers.product);
 app.use("/api/categories", routers.category);
 app.use("/api/subcategories", routers.subCategory);
-app.use("/api/users",routers.user)
+app.use("/api/users", routers.user);
 app.use("/api/socials", routers.socials);
 app.use("/api/upload", routers.upload);
 app.use("/api/newsletters", routers.newsLetter);
-
+app.use("/api/favourites", routers.favourite);
+app.use("/api/faqs", routers.faq);
+app.use("/api/notifications",routers.notification)
+app.use("/api/advertisement",routers.advertisement)
+app.use("/api/adds", routers.adds);
 app.use((req, res, next) => {
   next(new ApiError(res, httpStatus.NOT_FOUND, "Not found"));
 });
+
 
 // convert error to ApiError, if needed
 app.use(errorConverter);

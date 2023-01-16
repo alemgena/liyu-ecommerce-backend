@@ -1,5 +1,6 @@
+const httpStatus = require("http-status");
 const { Category } = require("../models");
-
+const ApiError = require("../utils/ApiError");
 exports.add = async (categoryBody) => {
     return Category.create(categoryBody);
 };
@@ -8,30 +9,47 @@ exports.list = async () => {
     return Category.find({});
 };
 
-exports.update = async (id, categoryData) => {
-    const category = await Category.findOne({ _id: id });
+  exports.update = async (id, updateBody) => {
+    const category = await Category.findById(id);
     if (!category) {
-      throw new ApiError(httpStatus.BAD_REQUEST, "category not found");
+      throw new ApiError(httpStatus.NOT_FOUND, "sub category not found");
     }
-    const updatedCategory = await Category.findOneAndUpdate(
-      id,
-      { $set: categoryData },
-      { returnOriginal: false }
-    );
-    return updatedCategory;
+  
+    if (updateBody.name && (await Category.isNameTaken(updateBody.name, id))) {
+      throw new ApiError(
+        httpStatus.BAD_REQUEST,
+        "category with this name already exist"
+      );
+    }
+  
+    Object.assign(category, updateBody);
+    await category.save();
+    return category;
   };
 
-exports.delete= async (id) => {
-    const category = await Category.findOne({ _id: id });
-    if (!category) {
-      throw new ApiError(httpStatus.BAD_REQUEST, "category not found");
-    }
-    const myquery = { _id: id };
-    const newvalues = { $set: { state: "INACTIVE" } };
-    await Category.deleteOne(myquery);
-    return myquery;
+  exports.delete = async (id) => {
+    return new Promise((resolve, reject) => {
+      Category.findById(id, async (err, data) => {
+        if (err) {
+          return reject(
+            new ApiError(
+              httpStatus.NOT_FOUND,
+              "Unable to find the category",
+              err
+            )
+          );
+        }
+        if (!data) {
+          return reject(
+            new ApiError(httpStatus.NOT_FOUND, "category not found")
+          );
+        }
+        data.deletedAt = Date.now();
+        await data.save();
+        resolve(data);
+      });
+    });
   };
-
 exports.listSubCategories = async (id) => {
   return await subCategory.find(
     { category: id, deletedAt: null },

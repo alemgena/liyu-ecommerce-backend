@@ -33,4 +33,24 @@ exports.activateAccount = async (id) => {
     );
     return updatedUser;
   };
+  exports.view = async (id) => {
+    const user = await User.findOne({ _id: id });
+    if (!user) {
+      throw new ApiError(httpStatus.BAD_REQUEST, "user not found");
+    }
+   return user;
+  };  
+
+
+  exports.suspendAccount = async (id) => {
+    const user = await User.findOne({ _id: id  });
+    if (!user) {
+      throw new ApiError(httpStatus.BAD_REQUEST, " User Not Found ");
+    }
+    user.status='SUSPENDED'
+    await user.save();
+    return "User account suspended."
+  };
+
   
+ 

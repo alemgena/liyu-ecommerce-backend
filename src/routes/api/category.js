@@ -12,12 +12,15 @@ router.post(
   validate(categoryValidation.add),
   categoryController.add
 );
-
-router.get("", Auth(), categoryController.list);
+router.get(
+  "",
+  categoryController.list
+);
 
 router.patch(
   "/:id",
   passport.authenticate("jwt", { session: false }),
+  validate(categoryValidation.update),
   categoryController.update
 );
 
