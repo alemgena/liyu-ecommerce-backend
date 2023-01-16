@@ -51,6 +51,7 @@ app.use("/api/faqs", routers.faq);
 app.use("/api/notifications",routers.notification)
 app.use("/api/advertisement",routers.advertisement)
 app.use("/api/adds", routers.adds);
+app.use("/api/addsView",routers.addsView)
 app.use((req, res, next) => {
   next(new ApiError(res, httpStatus.NOT_FOUND, "Not found"));
 });
