@@ -4,4 +4,5 @@ module.exports.Category = require("./category");
 module.exports.subCategory = require("./subCategory");
 module.exports.ProductImage = require("./productImages");
 module.exports.NewsLetter = require("./newsLetter");
-module.exports.AddsView = require("./addsViews");
+module.exports.HouseAdvertisement=require('./houseAdvertisement')
+module.exports.Adds=require('./adds')

@@ -6,17 +6,19 @@ const subCategory = require("./subCategory");
 const socials = require("./socials");
 const upload = require("./upload");
 const newsLetter = require("./newsLetter");
-const addsView=require('./addsView')
+const advertisement=require("./houseAdvertisement")
+const adds=require('./adds')
 const Routers = {
   auth,
   product,
+  adds,
   category,
   user,
   subCategory,
   socials,
   upload,
   newsLetter,
-  addsView
+  advertisement
 };
 
 module.exports = Routers;
