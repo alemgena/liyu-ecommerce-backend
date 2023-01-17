@@ -12,6 +12,7 @@ const faq = require("./faq");
 const notification = require("./notification");
 const advertisement=require("./houseAdvertisement")
 const adds=require('./adds')
+const addsView=require('./addsView')
 const Routers = {
   auth,
   product,
@@ -23,6 +24,7 @@ const Routers = {
   upload,
   newsLetter,
   spam,
+  addsView,
   favourite,
   faq,
   notification,
