@@ -68,5 +68,19 @@ exports.delete = async (id) => {
   await product.save();
   return product;
 };
-
-
+exports.viewProductImage = async (id) => {
+  const productImage = await ProductImage.find({ productId: id }).populate({
+    path: "productId",
+    match: { state:"ACTIVE" },
+  });
+  if (!productImage) {
+    throw new ApiError(httpStatus.BAD_REQUEST, "product image not found");
+  }
+  return productImage;
+};
+exports.viewImages = async() => {
+  return  ProductImage.find({ }).populate({
+    path: "productId",
+    match: { state:"ACTIVE" },
+  });
+};

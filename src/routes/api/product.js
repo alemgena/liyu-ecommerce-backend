@@ -9,9 +9,9 @@ const router = express.Router();
 router.post("",  passport.authenticate("jwt", { session: false }), validate(productValidation.add), productController.add);
 
 router.get("", productController.list);
-
+router.get("/images", productController.listImages);
 router.get("/:id", productController.view);
-
+router.get("/image/:id", productController.viewProductImage);
 router.get("", productController.queryProducts);
 
 router.patch(
