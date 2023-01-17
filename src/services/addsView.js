@@ -2,7 +2,9 @@ const httpStatus = require("http-status");
 const { AddsView } = require("../models");
 const ApiError = require("../utils/ApiError");
 exports.add = async (body) => {
-    if (await AddsView.isUserView(body.userId)) {
+  const adds=await AddsView.findOne({addsId:body.addsId})
+
+    if (await adds&& AddsView.isUserView(body.userId)) {
       throw new ApiError(
         httpStatus.BAD_REQUEST,
         "user with this id already exist"
