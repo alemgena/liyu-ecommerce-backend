@@ -12,12 +12,14 @@ const faq = require("./faq");
 const notification = require("./notification");
 const advertisement=require("./houseAdvertisement")
 const adds=require('./adds')
+const feedBack=require('./feedBack')
 const Routers = {
   auth,
   product,
   adds,
   category,
   user,
+  feedBack,
   subCategory,
   socials,
   upload,
