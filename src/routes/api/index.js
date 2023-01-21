@@ -12,6 +12,8 @@ const faq = require("./faq");
 const notification = require("./notification");
 const advertisement=require("./houseAdvertisement")
 const adds=require('./adds')
+const feedBack=require('./feedBack')
+
 const addsView=require('./addsView')
 const Routers = {
   auth,
@@ -19,6 +21,7 @@ const Routers = {
   adds,
   category,
   user,
+  feedBack,
   subCategory,
   socials,
   upload,
