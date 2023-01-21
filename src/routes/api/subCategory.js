@@ -6,13 +6,19 @@ const subCategoryValidation = require("../../validations/subCategory");
 
 const router = express.Router();
 
-router.post("", validate(subCategoryValidation.add), subCategoryController.add);
+router.post(
+  "",
+  validate(subCategoryValidation.add),
+  Auth(),
+  subCategoryController.add
+);
 
 router.delete("/:id", Auth(), subCategoryController.delete);
 
 router.patch(
   "/:id",
   validate(subCategoryValidation.update),
+  Auth(),
   subCategoryController.update
 );
 

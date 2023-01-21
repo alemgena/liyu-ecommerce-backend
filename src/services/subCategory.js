@@ -53,3 +53,25 @@ exports.update = async (id, updateBody) => {
   await subcategory.save();
   return subcategory;
 };
+
+exports.get = async (id) => {
+  return new Promise((resolve, reject) => {
+    subCategory.findById(id, async (err, data) => {
+      if (err) {
+        return reject(
+          new ApiError(
+            httpStatus.NOT_FOUND,
+            "Error finding the sub category",
+            err
+          )
+        );
+      }
+      if (!data) {
+        return reject(
+          new ApiError(httpStatus.NOT_FOUND, "Sub category not found")
+        );
+      }
+      resolve(data);
+    });
+  });
+};

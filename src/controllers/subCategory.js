@@ -5,7 +5,9 @@ const SuccessResponse = require("../utils/successResponse");
 
 exports.add = catchAsync(async (req, res) => {
   const result = await subCategory.add({ ...req.body });
-  res.status(httpStatus.CREATED).send({ result });
+  res
+    .status(httpStatus.CREATED)
+    .send(new SuccessResponse(httpStatus.CREATED, "", result));
 });
 
 exports.delete = catchAsync(async (req, res) => {
@@ -23,6 +25,13 @@ exports.delete = catchAsync(async (req, res) => {
 });
 
 exports.update = catchAsync(async (req, res) => {
+  const original = await subCategory.get(req.params.id);
   const result = await subCategory.update(req.params.id, req.body);
-  res.send(result);
+  res.send(
+    new SuccessResponse(
+      httpStatus.OK,
+      "successfully updated the sub category",
+      { original: original, edited: result }
+    )
+  );
 });
