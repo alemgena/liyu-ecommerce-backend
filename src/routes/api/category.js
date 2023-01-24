@@ -4,6 +4,7 @@ const categoryValidation = require("../../validations/category");
 const categoryController = require("../../controllers/category");
 const router = express.Router();
 const passport = require("passport");
+const Auth = require("../../middlewares/auth");
 
 router.post(
   "",
@@ -17,15 +18,17 @@ router.get(
 );
 
 router.patch(
-  "/:id", passport.authenticate("jwt", { session: false }),
+  "/:id",
+  passport.authenticate("jwt", { session: false }),
   validate(categoryValidation.update),
   categoryController.update
 );
 
 router.delete(
-  "/:id", passport.authenticate("jwt", { session: false }),
+  "/:id",
+  passport.authenticate("jwt", { session: false }),
   categoryController.delete
 );
 
-router.get("/:id/subcategories", categoryController.listSubCategories);
+router.get("/:id/subcategories", Auth(), categoryController.listSubCategories);
 module.exports = router;
