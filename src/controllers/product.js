@@ -55,6 +55,9 @@ exports.uploadProductImages = catchAsync(async (req, res) => {
     throw new ApiError(httpStatus.NOT_FOUND, "Product Id is not valid");
   }
   await uploadImage(req, res);
+  if(req.files.length===0){
+      throw new ApiError(httpStatus.BAD_REQUEST, "Pleas Select One File");
+  }
   const data = await product.uploadProductImages(req.files, req.params.id);
   res
     .status(httpStatus.OK)
