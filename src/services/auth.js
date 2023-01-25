@@ -21,21 +21,24 @@ const transporter = nodemailer.createTransport({
   requireTLS: true,
 });
 exports.register = async (userBody) => {
-  if (await User.isEmailTaken(userBody.email)) {
-    throw new ApiError(httpStatus.BAD_REQUEST, "Email already taken");
-  }
-  let code = (Math.floor(Math.random() * 10000) + 10000)
-    .toString()
-    .substring(1);
-  let userCode = {
-    code: code,
-  };
-  let mailOptions = {
-    from: process.env.GMAIL, // sender address
-    to: userBody.email, // list of receivers
-    subject: "Account activation", // Subject line
-    text: `Wellcome, This is the Activation code: ${code}`, // plain text body
-    html: `<style>@import url('https://fonts.googleapis.com/css2?family=Cabin&display=swap');</style>
+  return new Promise((resolve, reject) => {
+    if (User.isEmailTaken(userBody.email)) {
+      return reject(
+        new ApiError(httpStatus.BAD_REQUEST, "Email already taken")
+      );
+    }
+    let code = (Math.floor(Math.random() * 10000) + 10000)
+      .toString()
+      .substring(1);
+    let userCode = {
+      code: code,
+    };
+    let mailOptions = {
+      from: process.env.GMAIL, // sender address
+      to: userBody.email, // list of receivers
+      subject: "Account activation", // Subject line
+      text: `Wellcome, This is the Activation code: ${code}`, // plain text body
+      html: `<style>@import url('https://fonts.googleapis.com/css2?family=Cabin&display=swap');</style>
             <div style="border: 1px solid green; border-radius: 5px; padding: 30px;">&nbsp; &nbsp;&nbsp; &nbsp;
             <div style="text-align: center; font-family: 'Cabin', sans-serif; margin: auto;">
                 <div style="color: green; font-size: 14px; margin: 20px;">
@@ -50,17 +53,40 @@ exports.register = async (userBody) => {
                 </span>
             </div>
             </div>`,
-  };
-  await transporter.sendMail(mailOptions);
-  Object.assign(userBody, userCode);
-  return User.create(userBody);
+    };
+    transporter.sendMail(mailOptions);
+    Object.assign(userBody, userCode);
+    User.create(userBody, (err, data) => {
+      if (err) {
+        return reject(
+          new ApiError(
+            httpStatus.BAD_REQUEST,
+            "Error registering the user",
+            err
+          )
+        );
+      }
+      resolve(data);
+    });
+  });
 };
 exports.loginUserWithEmailAndPassword = async (email, password) => {
-  const user = await User.findOne({ email });
-  if (!user || !(await user.isPasswordMatch(password))) {
-    throw new ApiError(httpStatus.UNAUTHORIZED, "Incorrect email or password");
-  }
-  return user;
+  return new Promise((resolve, reject) => {
+    User.findOne({ email }, (err, data) => {
+      if (err) {
+        return reject(
+          new ApiError(httpStatus.UNAUTHORIZED, "Unable to login", err)
+        );
+      }
+
+      if (!data || !data.isPasswordMatch(password)) {
+        return reject(
+          new ApiError(httpStatus.UNAUTHORIZED, "Incorrect email or password")
+        );
+      }
+      resolve(user);
+    });
+  });
 };
 exports.emailVerify = async (email, code) => {
   const user = await User.findOne({ email: email, code: code });
