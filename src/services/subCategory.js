@@ -3,13 +3,28 @@ const { subCategory } = require("../models");
 const ApiError = require("../utils/ApiError");
 
 exports.add = async (body) => {
-  if (await subCategory.isNameTaken(body.name)) {
-    throw new ApiError(
-      httpStatus.BAD_REQUEST,
-      "sub category with this name already exist"
-    );
-  }
-  return subCategory.create(body);
+  return new Promise((resolve, reject) => {
+    if (subCategory.isNameTaken(body.name)) {
+      return reject(
+        new ApiError(
+          httpStatus.BAD_REQUEST,
+          "sub category with this name already exist"
+        )
+      );
+    }
+    subCategory.create(body, (err, data) => {
+      if (err) {
+        return reject(
+          new ApiError(
+            httpStatus.NOT_FOUND,
+            "Error adding the sub category",
+            err
+          )
+        );
+      }
+      resolve(data);
+    });
+  });
 };
 
 exports.delete = async (id) => {
@@ -37,21 +52,35 @@ exports.delete = async (id) => {
 };
 
 exports.update = async (id, updateBody) => {
-  const subcategory = await subCategory.findById(id);
-  if (!subcategory) {
-    throw new ApiError(httpStatus.NOT_FOUND, "sub category not found");
-  }
-
-  if (updateBody.name && (await subCategory.isNameTaken(updateBody.name, id))) {
-    throw new ApiError(
-      httpStatus.BAD_REQUEST,
-      "sub category with this name already exist"
-    );
-  }
-
-  Object.assign(subcategory, updateBody);
-  await subcategory.save();
-  return subcategory;
+  return new Promise((resolve, reject) => {
+    subCategory.findById(id, (err, data) => {
+      if (err) {
+        return reject(
+          new ApiError(
+            httpStatus.NOT_FOUND,
+            "Error finding the sub category",
+            err
+          )
+        );
+      }
+      if (!data) {
+        return reject(
+          new ApiError(httpStatus.NOT_FOUND, "Sub category not found")
+        );
+      }
+      if (data.name && subCategory.isNameTaken(data.name, id)) {
+        return reject(
+          new ApiError(
+            httpStatus.BAD_REQUEST,
+            "sub category with this name already exist"
+          )
+        );
+      }
+      Object.assign(subcategory, updateBody);
+      subcategory.save();
+      resolve(subcategory);
+    });
+  });
 };
 
 exports.get = async (id) => {

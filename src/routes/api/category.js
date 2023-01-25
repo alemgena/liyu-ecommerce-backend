@@ -3,32 +3,24 @@ const validate = require("../../middlewares/validate");
 const categoryValidation = require("../../validations/category");
 const categoryController = require("../../controllers/category");
 const router = express.Router();
-const passport = require("passport");
-const Auth = require("../../middlewares/auth");
+const auth = require("../../middlewares/auth");
 
 router.post(
   "",
-  passport.authenticate("jwt", { session: false }),
+  auth(),
   validate(categoryValidation.add),
   categoryController.add
 );
-router.get(
-  "",
-  categoryController.list
-);
+router.get("", categoryController.list);
 
 router.patch(
   "/:id",
-  passport.authenticate("jwt", { session: false }),
+  auth(),
   validate(categoryValidation.update),
   categoryController.update
 );
 
-router.delete(
-  "/:id",
-  passport.authenticate("jwt", { session: false }),
-  categoryController.delete
-);
+router.delete("/:id", auth(), categoryController.delete);
 
-router.get("/:id/subcategories", Auth(), categoryController.listSubCategories);
+router.get("/:id/subcategories", categoryController.listSubCategories);
 module.exports = router;

@@ -33,3 +33,18 @@ exports.delete= async (id) => {
   };
 
 
+exports.get = async (id) => {
+  return new Promise((resolve, reject) => {
+    Faq.findById(id, async (err, data) => {
+      if (err) {
+        return reject(
+          new ApiError(httpStatus.NOT_FOUND, "Unable to find the faq", err)
+        );
+      }
+      if (!data) {
+        return reject(new ApiError(httpStatus.NOT_FOUND, "faq not found"));
+      }
+      resolve(data);
+    });
+  });
+};

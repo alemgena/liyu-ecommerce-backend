@@ -9,7 +9,8 @@ const transporter = nodemailer.createTransport({
   port: 465,
   logger: true,
   debug: true,
-  ignoreTLS: true, secureConnection: false,
+  ignoreTLS: true,
+  secureConnection: false,
   auth: {
     user: process.env.GMAIL,
     pass: process.env.PASS,
@@ -26,9 +27,9 @@ exports.register = async (userBody) => {
   let code = (Math.floor(Math.random() * 10000) + 10000)
     .toString()
     .substring(1);
-    let userCode={
-      code:code
-    }
+  let userCode = {
+    code: code,
+  };
   let mailOptions = {
     from: process.env.GMAIL, // sender address
     to: userBody.email, // list of receivers
@@ -51,7 +52,7 @@ exports.register = async (userBody) => {
             </div>`,
   };
   await transporter.sendMail(mailOptions);
-  Object.assign(userBody,userCode)
+  Object.assign(userBody, userCode);
   return User.create(userBody);
 };
 exports.loginUserWithEmailAndPassword = async (email, password) => {
@@ -60,20 +61,19 @@ exports.loginUserWithEmailAndPassword = async (email, password) => {
     throw new ApiError(httpStatus.UNAUTHORIZED, "Incorrect email or password");
   }
   return user;
-
 };
 exports.emailVerify = async (email, code) => {
   const user = await User.findOne({ email: email, code: code });
   if (!user) {
     throw new ApiError(httpStatus.UNAUTHORIZED, "Incorrect email or code");
   }
-  user.isEmailVerified=true
-  user.code=null
-  user.save()
+  user.isEmailVerified = true;
+  user.code = null;
+  user.save();
   return user;
 };
 exports.forgetPassword = async (email) => {
-  const user = await User.findOne({email});
+  const user = await User.findOne({ email });
   if (!user) {
     throw new ApiError(httpStatus.UNAUTHORIZED, "Incorrect email");
   }
@@ -103,7 +103,7 @@ exports.forgetPassword = async (email) => {
             </div>`,
   };
   await transporter.sendMail(mailOptions);
-user.password=password
-  user.save()
+  user.password = password;
+  user.save();
   return `Your new password is sent to ${email}. Check your email.`;
 };

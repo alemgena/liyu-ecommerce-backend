@@ -7,18 +7,20 @@ const ObjectID = require("mongodb").ObjectId;
 const SuccessResponse = require("../utils/successResponse");
 const ApiError = require("../utils/ApiError");
 exports.add = catchAsync(async (req, res) => {
-  const data = await product.add({ ...req.body });
-  res.status(httpStatus.CREATED).send({ data });
+  const data = await product.add(req.body);
+  res
+    .status(httpStatus.CREATED)
+    .send(new SuccessResponse(httpStatus.CREATED, "", data));
 });
 
-exports.list = catchAsync(async (req, res) => {
-  const data = await product.list();
-  res.status(200).send({ data });
-});
+// exports.list = catchAsync(async (req, res) => {
+//   const data = await product.list();
+//   res.status(200).send({ data });
+// });
 
 exports.view = catchAsync(async (req, res) => {
   const data = await product.view(req.params.id);
-  res.status(200).send({ data });
+  res.status(httpStatus.OK).send(new SuccessResponse(httpStatus.OK, "", data));
 });
 
 exports.queryProducts = catchAsync(async (req, res) => {
@@ -38,15 +40,20 @@ exports.queryProducts = catchAsync(async (req, res) => {
     .status(httpStatus.OK)
     .send(new SuccessResponse(httpStatus.OK, "", data.results, data.metaData));
 });
+
 exports.update = catchAsync(async (req, res) => {
   if (!ObjectID.isValid(req.params.id)) {
     throw new ApiError(httpStatus.NOT_FOUND, "Product Id is not valid");
   }
+  const original = await product.view(req.params.id);
   const data = await product.update(req.params.id, req.body);
   res
     .status(httpStatus.OK)
     .send(
-      new SuccessResponse(httpStatus.OK, "Successfully  updated product", data)
+      new SuccessResponse(httpStatus.OK, "Successfully updated product", {
+        original: original,
+        edited: data,
+      })
     );
 });
 

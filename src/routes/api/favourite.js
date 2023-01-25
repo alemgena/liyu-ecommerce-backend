@@ -3,14 +3,13 @@ const validate = require("../../middlewares/validate");
 const favouriteValidation = require("../../validations/favourite");
 const favouriteController = require("../../controllers/favourite");
 const router = express.Router();
-const passport = require('passport');
+const auth = require("../../middlewares/auth");
 
 router.post(
   "",
-  passport.authenticate("jwt", { session: false }),
+  auth(),
   validate(favouriteValidation.add),
   favouriteController.add
 );
-
 
 module.exports = router;

@@ -1,6 +1,6 @@
 const express = require("express");
 const validate = require("../../middlewares/validate");
-const Auth = require("../../middlewares/auth");
+const auth = require("../../middlewares/auth");
 const subCategoryController = require("../../controllers/subCategory");
 const subCategoryValidation = require("../../validations/subCategory");
 
@@ -8,17 +8,17 @@ const router = express.Router();
 
 router.post(
   "",
+  auth(),
   validate(subCategoryValidation.add),
-  Auth(),
   subCategoryController.add
 );
 
-router.delete("/:id", Auth(), subCategoryController.delete);
+router.delete("/:id", auth(), subCategoryController.delete);
 
 router.patch(
   "/:id",
+  auth(),
   validate(subCategoryValidation.update),
-  Auth(),
   subCategoryController.update
 );
 
