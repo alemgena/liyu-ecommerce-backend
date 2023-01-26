@@ -7,8 +7,6 @@ const transporter = nodemailer.createTransport({
   service: "Gmail",
   secure: true,
   port: 465,
-  logger: true,
-  debug: true,
   ignoreTLS: true,
   secureConnection: false,
   auth: {
@@ -21,8 +19,8 @@ const transporter = nodemailer.createTransport({
   requireTLS: true,
 });
 exports.register = async (userBody) => {
-  return new Promise((resolve, reject) => {
-    if (User.isEmailTaken(userBody.email)) {
+  return new Promise(async (resolve, reject) => {
+    if (await User.isEmailTaken(userBody.email)) {
       return reject(
         new ApiError(httpStatus.BAD_REQUEST, "Email already taken")
       );
@@ -54,20 +52,27 @@ exports.register = async (userBody) => {
             </div>
             </div>`,
     };
-    transporter.sendMail(mailOptions);
-    Object.assign(userBody, userCode);
-    User.create(userBody, (err, data) => {
-      if (err) {
-        return reject(
-          new ApiError(
-            httpStatus.BAD_REQUEST,
-            "Error registering the user",
-            err
-          )
-        );
-      }
-      resolve(data);
-    });
+    const sendInfo = await transporter.sendMail(mailOptions);
+    if (sendInfo.accepted.length > 0) {
+      Object.assign(userBody, userCode);
+      User.create(userBody, (err, data) => {
+        if (err) {
+          return reject(
+            new ApiError(
+              httpStatus.BAD_REQUEST,
+              "Error registering the user",
+              err
+            )
+          );
+        }
+        resolve(data);
+      });
+    } else {
+      throw new ApiError(
+        httpStatus.BAD_REQUEST,
+        "Could not send the activation code, Try again!"
+      );
+    }
   });
 };
 exports.loginUserWithEmailAndPassword = async (email, password) => {
@@ -128,8 +133,15 @@ exports.forgetPassword = async (email) => {
             </div>
             </div>`,
   };
-  await transporter.sendMail(mailOptions);
-  user.password = password;
-  user.save();
-  return `Your new password is sent to ${email}. Check your email.`;
+  const sendInfo = await transporter.sendMail(mailOptions);
+  if (sendInfo.accepted.length > 0) {
+    user.password = password;
+    user.save();
+    return `Your new password is sent to ${email}. Check your email.`;
+  } else {
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      "Could not send the activation code, Try again!"
+    );
+  }
 };
