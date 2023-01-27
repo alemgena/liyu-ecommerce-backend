@@ -4,11 +4,9 @@ const ApiError = require("../utils/ApiError");
 exports.add = async (categoryBody) => {
   return Category.create(categoryBody);
 };
-
 exports.list = async () => {
-  return Category.find({});
+  return Category.find({}).populate('subCategory');
 };
-
 exports.update = async (id, updateBody) => {
   const category = await Category.findById(id);
   if (!category) {

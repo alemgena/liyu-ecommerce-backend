@@ -1,10 +1,10 @@
 const httpStatus = require("http-status");
-const { subCategory } = require("../models");
+const { subCategory, Category } = require("../models");
 const ApiError = require("../utils/ApiError");
 
 exports.add = async (body) => {
-  return new Promise((resolve, reject) => {
-    if (subCategory.isNameTaken(body.name)) {
+  return new Promise(async(resolve, reject) => {
+    if (await subCategory.isNameTaken(body.name)) {
       return reject(
         new ApiError(
           httpStatus.BAD_REQUEST,
@@ -22,14 +22,26 @@ exports.add = async (body) => {
           )
         );
       }
+      Category.findByIdAndUpdate(body.category,{ $push: { subCategory:data.id} },
+        { new: true,},async(err,data)=>{
+          if (err) {
+            return reject(
+              new ApiError(
+                httpStatus.NOT_FOUND,
+                "Error updating category",
+                err
+              )
+            );
+          }
+        })
       resolve(data);
     });
   });
 };
 
 exports.delete = async (id) => {
-  return new Promise((resolve, reject) => {
-    subCategory.findById(id, async (err, data) => {
+  return new Promise(async(resolve, reject) => {
+  await subCategory.findById(id, async (err, data) => {
       if (err) {
         return reject(
           new ApiError(
@@ -52,8 +64,8 @@ exports.delete = async (id) => {
 };
 
 exports.update = async (id, updateBody) => {
-  return new Promise((resolve, reject) => {
-    subCategory.findById(id, (err, data) => {
+  return new Promise(async(resolve, reject) => {
+   await subCategory.findById(id, (err, data) => {
       if (err) {
         return reject(
           new ApiError(
@@ -84,8 +96,8 @@ exports.update = async (id, updateBody) => {
 };
 
 exports.get = async (id) => {
-  return new Promise((resolve, reject) => {
-    subCategory.findById(id, async (err, data) => {
+  return new Promise(async(resolve, reject) => {
+   await subCategory.findById(id, async (err, data) => {
       if (err) {
         return reject(
           new ApiError(
