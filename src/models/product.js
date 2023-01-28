@@ -2,7 +2,6 @@ const mongoose = require("mongoose");
 const { paginate, toJSON } = require("./plugins");
 const Double = require("@mongoosejs/double");
 
-
 const productSchema = mongoose.Schema(
   {
     name: {
@@ -52,6 +51,7 @@ const productSchema = mongoose.Schema(
   },
   {
     timestamps: true,
+    toJSON: { virtuals: true },
   }
 );
 
@@ -62,5 +62,12 @@ productSchema.index(
 
 productSchema.plugin(toJSON);
 productSchema.plugin(paginate);
+
+productSchema.virtual("variants", {
+  ref: "ProductVariant",
+  localField: "_id",
+  foreignField: "product",
+  match: { deleted: false },
+});
 
 module.exports = Product = mongoose.model("Product", productSchema);

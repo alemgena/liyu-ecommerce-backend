@@ -34,7 +34,13 @@ exports.queryProducts = catchAsync(async (req, res) => {
     "price",
     "allergies",
   ]);
-  const options = pick(req.query, ["sortBy", "limit", "page", "paginate"]);
+  const options = pick(req.query, [
+    "sortBy",
+    "limit",
+    "page",
+    "paginate",
+    "populate",
+  ]);
   const data = await product.queryProducts(filter, options);
   res
     .status(httpStatus.OK)

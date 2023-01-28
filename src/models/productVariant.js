@@ -3,7 +3,7 @@ const { toJSON, paginate } = require("./plugins");
 const mongoose_delete = require("mongoose-delete");
 const productVariant = new mongoose.Schema(
   {
-    productID: {
+    product: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Product",
     },
@@ -36,6 +36,6 @@ productVariant.plugin(toJSON);
 productVariant.plugin(paginate);
 productVariant.plugin(mongoose_delete, { overrideMethods: true });
 module.exports = ProductVariant = mongoose.model(
-  "PoductVariant",
+  "ProductVariant",
   productVariant
 );

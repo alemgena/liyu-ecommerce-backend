@@ -42,7 +42,7 @@ const paginate = (schema) => {
         : 1;
     const skip = (page - 1) * limit;
     const newFileter = {
-      filter,
+      ...filter,
       ...(filter.search != undefined && {
         $text: {
           $search: filter.search,

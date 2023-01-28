@@ -17,7 +17,7 @@ exports.add = async (userID, pID, body) => {
       }
 
       ProductVariant.create(
-        { productID: pID, options: body.options },
+        { product: pID, options: body.options },
         (err, data) => {
           if (err) {
             return reject(
@@ -47,7 +47,7 @@ exports.delete = async (userID, variantID) => {
     ProductVariant.findOne({
       _id: variantID,
     })
-      .populate("productID")
+      .populate("product")
       .exec(async (err, data) => {
         if (err) {
           reject(
@@ -63,7 +63,7 @@ exports.delete = async (userID, variantID) => {
             new ApiError(httpStatus.BAD_REQUEST, "Variant not found")
           );
         }
-        if (data.productID.seller != userID) {
+        if (data.product.seller != userID) {
           return reject(
             new ApiError(
               httpStatus.UNAUTHORIZED,
@@ -88,7 +88,7 @@ exports.update = async (userID, variantID, body) => {
     ProductVariant.findOne({
       _id: variantID,
     })
-      .populate("productID")
+      .populate("product")
       .exec(async (err, data) => {
         if (err) {
           reject(
@@ -104,7 +104,7 @@ exports.update = async (userID, variantID, body) => {
             new ApiError(httpStatus.BAD_REQUEST, "Variant not found")
           );
         }
-        if (data.productID.seller != userID) {
+        if (data.product.seller != userID) {
           return reject(
             new ApiError(
               httpStatus.UNAUTHORIZED,
