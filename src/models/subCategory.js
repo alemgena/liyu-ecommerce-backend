@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 const { paginate, toJSON } = require("./plugins");
-
 const subCategorySchema = mongoose.Schema(
   {
     name: {

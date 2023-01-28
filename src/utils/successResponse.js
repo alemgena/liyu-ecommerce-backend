@@ -1,5 +1,5 @@
 class SuccessResponse {
-  constructor(code = 200, message = "", data, metaData = {}) {
+  constructor(code = 200, message = "", data = {}, metaData = {}) {
     this.success = true;
     this.code = code;
     this.message = message;

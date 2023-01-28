@@ -44,14 +44,20 @@ exports.update = async (id, productData) => {
 };
 
 exports.uploadProductImages = async (files, id) => {
-  if (files.length === 0) {
-    throw new ApiError(httpStatus.BAD_REQUEST, "Pleas Select One File");
+  const product = await Product.findById(id);
+  if(!product){
+    throw new ApiError(httpStatus.NOT_FOUND, "product not found");
   }
+  let images=[]
   for (let type of files) {
     let imageUri = `images/${type.filename}`;
-    await ProductImage.create({ imageUri: imageUri, productId: id });
+    images.push(imageUri)
   }
+  product.imagesURL=images
+  await product.save();
+
   return "Upload Images Successfully ";
+
 };
 exports.delete = async (id) => {
   const product = await Product.findById(id);
@@ -68,5 +74,19 @@ exports.delete = async (id) => {
   await product.save();
   return product;
 };
-
-
+exports.viewProductImage = async (id) => {
+  const productImage = await ProductImage.find({ productId: id }).populate({
+    path: "productId",
+    match: { state:"ACTIVE" },
+  });
+  if (!productImage) {
+    throw new ApiError(httpStatus.BAD_REQUEST, "product image not found");
+  }
+  return productImage;
+};
+exports.viewImages = async() => {
+  return  ProductImage.find({ }).populate({
+    path: "productId",
+    match: { state:"ACTIVE" },
+  });
+};
