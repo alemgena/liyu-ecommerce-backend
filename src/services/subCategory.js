@@ -3,7 +3,7 @@ const { subCategory, Category } = require("../models");
 const ApiError = require("../utils/ApiError");
 
 exports.add = async (body) => {
-  return new Promise(async(resolve, reject) => {
+  return new Promise(async (resolve, reject) => {
     if (await subCategory.isNameTaken(body.name)) {
       return reject(
         new ApiError(
@@ -22,26 +22,14 @@ exports.add = async (body) => {
           )
         );
       }
-      Category.findByIdAndUpdate(body.category,{ $push: { subCategory:data.id} },
-        { new: true,},async(err,data)=>{
-          if (err) {
-            return reject(
-              new ApiError(
-                httpStatus.NOT_FOUND,
-                "Error updating category",
-                err
-              )
-            );
-          }
-        })
       resolve(data);
     });
   });
 };
 
 exports.delete = async (id) => {
-  return new Promise(async(resolve, reject) => {
-  await subCategory.findById(id, async (err, data) => {
+  return new Promise((resolve, reject) => {
+    subCategory.findById(id, async (err, data) => {
       if (err) {
         return reject(
           new ApiError(
@@ -64,8 +52,8 @@ exports.delete = async (id) => {
 };
 
 exports.update = async (id, updateBody) => {
-  return new Promise(async(resolve, reject) => {
-   await subCategory.findById(id, (err, data) => {
+  return new Promise((resolve, reject) => {
+    subCategory.findById(id, async (err, data) => {
       if (err) {
         return reject(
           new ApiError(
@@ -80,7 +68,7 @@ exports.update = async (id, updateBody) => {
           new ApiError(httpStatus.NOT_FOUND, "Sub category not found")
         );
       }
-      if (data.name && subCategory.isNameTaken(data.name, id)) {
+      if (data.name && (await subCategory.isNameTaken(data.name, id))) {
         return reject(
           new ApiError(
             httpStatus.BAD_REQUEST,
@@ -88,31 +76,34 @@ exports.update = async (id, updateBody) => {
           )
         );
       }
-      Object.assign(subcategory, updateBody);
-      subcategory.save();
-      resolve(subcategory);
+      Object.assign(subCategory, updateBody);
+      subCategory.save();
+      resolve(subCategory);
     });
   });
 };
 
 exports.get = async (id) => {
-  return new Promise(async(resolve, reject) => {
-   await subCategory.findById(id, async (err, data) => {
-      if (err) {
-        return reject(
-          new ApiError(
-            httpStatus.NOT_FOUND,
-            "Error finding the sub category",
-            err
-          )
-        );
-      }
-      if (!data) {
-        return reject(
-          new ApiError(httpStatus.NOT_FOUND, "Sub category not found")
-        );
-      }
-      resolve(data);
-    });
+  return new Promise((resolve, reject) => {
+    subCategory
+      .findById(id)
+      .populate("product")
+      .exec(async (err, data) => {
+        if (err) {
+          return reject(
+            new ApiError(
+              httpStatus.NOT_FOUND,
+              "Error finding the sub category",
+              err
+            )
+          );
+        }
+        if (!data) {
+          return reject(
+            new ApiError(httpStatus.NOT_FOUND, "Sub category not found")
+          );
+        }
+        resolve(data);
+      });
   });
 };

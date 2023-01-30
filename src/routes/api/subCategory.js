@@ -13,7 +13,8 @@ router.post(
   subCategoryController.add
 );
 
-router.delete("/:id", auth(), subCategoryController.delete);
+router.delete("/:id",auth(),
+ subCategoryController.delete);
 
 router.patch(
   "/:id",
@@ -21,5 +22,6 @@ router.patch(
   validate(subCategoryValidation.update),
   subCategoryController.update
 );
-
+router.get("/:id",// auth(),
+ subCategoryController.get);
 module.exports = router;
