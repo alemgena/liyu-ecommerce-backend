@@ -11,5 +11,5 @@ module.exports.HouseAdvertisement=require('./houseAdvertisement')
 module.exports.Adds=require('./adds')
 module.exports.FeedBack=require('./feedBack')
 module.exports.AddsView=require('./addsViews')
-
+module.exports.Favourite=require('./favourite')
 module.exports.ActivityLog = require("./activityLog");
