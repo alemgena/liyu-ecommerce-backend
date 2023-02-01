@@ -21,15 +21,31 @@ const productSchema = mongoose.Schema(
       },
     ],
     price: {
-      type: mongoose.Schema.Types.Double,
+      type: Double,
       required: true,
       trim: true,
     },
-    subCategory: {
+    subcategory: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "subCategory",
+      ref: "Subcategory",
       required: true,
     },
+    options: [
+      {
+        id: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "ProductOption",
+          required: true,
+        },
+        values: [
+          {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "OptionValue",
+            required: true,
+          },
+        ],
+      },
+    ],
     seller: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
@@ -51,15 +67,24 @@ const productSchema = mongoose.Schema(
   },
   {
     timestamps: true,
+    toJSON: { virtuals: true },
   }
-);
-
-productSchema.index(
-  { name: "text", description: "text" },
-  { collation: { locale: "en", strength: 2 } }
 );
 
 productSchema.plugin(toJSON);
 productSchema.plugin(paginate);
 
-module.exports = Product = mongoose.model("Product", productSchema);
+// productSchema.virtual("variants", {
+//   ref: "ProductVariant",
+//   localField: "_id",
+//   foreignField: "product",
+//   match: { deleted: false },
+// });
+const Product = mongoose.model("Product", productSchema);
+
+// Product.collection.createIndex(
+//   { name: "text", description: "text" },
+//   { collation: { locale: "en", strength: 2 } }
+// );
+
+module.exports = Product;
