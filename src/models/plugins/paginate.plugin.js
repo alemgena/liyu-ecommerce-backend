@@ -43,8 +43,8 @@ const paginate = (schema) => {
 
     const skip = (page - 1) * limit;
     const obj = {};
-    
-    if (filter.filter != "" || filter.filter != undefined) {
+
+    if (filter.filter) {
       const arr = filter.filter.split(",");
 
       arr.forEach((item) => {
@@ -53,7 +53,7 @@ const paginate = (schema) => {
       });
     }
 
-    const newFileter = {
+    const newFilter = {
       ...obj,
       ...(filter.search != undefined && {
         $text: {
@@ -61,9 +61,9 @@ const paginate = (schema) => {
         },
       }),
     };
-    const countPromise = this.countDocuments(newFileter).exec();
+    const countPromise = this.countDocuments(newFilter).exec();
 
-    let docsPromise = this.find(newFileter)
+    let docsPromise = this.find(newFilter)
       .collation({
         locale: "en",
         strength: 2,

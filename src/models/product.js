@@ -82,9 +82,9 @@ productSchema.plugin(paginate);
 // });
 const Product = mongoose.model("Product", productSchema);
 
-Product.collection.createIndex(
-  { name: "text", description: "text" },
-  { collation: { locale: "en", strength: 2 } }
-);
+// Product.collection.createIndex(
+//   { name: "text", description: "text" },
+//   { collation: { locale: "en", strength: 2 } }
+// );
 
 module.exports = Product;
