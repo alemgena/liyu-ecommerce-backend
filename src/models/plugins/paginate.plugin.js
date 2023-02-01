@@ -40,9 +40,21 @@ const paginate = (schema) => {
       options.page && parseInt(options.page, 10) > 0
         ? parseInt(options.page, 10)
         : 1;
+
     const skip = (page - 1) * limit;
+    const obj = {};
+    
+    if (filter.filter != "" || filter.filter != undefined) {
+      const arr = filter.filter.split(",");
+
+      arr.forEach((item) => {
+        const keyValue = item.split(":");
+        obj[keyValue[0]] = keyValue[1];
+      });
+    }
+
     const newFileter = {
-      ...filter,
+      ...obj,
       ...(filter.search != undefined && {
         $text: {
           $search: filter.search,
@@ -80,7 +92,7 @@ const paginate = (schema) => {
       const totalPages = Math.ceil(totalResults / limit);
       const result = {
         results,
-        metaData: { page, limit, totalPages, totalResults, filter, sort },
+        metaData: { page, limit, totalPages, totalResults, filter: obj, sort },
       };
       return Promise.resolve(result);
     });

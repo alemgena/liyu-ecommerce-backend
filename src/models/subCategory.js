@@ -50,4 +50,4 @@ subCategorySchema.statics.isNameTaken = async function (
 subCategorySchema.plugin(paginate);
 subCategorySchema.plugin(toJSON);
 
-module.exports = subCategory = mongoose.model("subCategory", subCategorySchema);
+module.exports = Subcategory = mongoose.model("Subcategory", subCategorySchema);

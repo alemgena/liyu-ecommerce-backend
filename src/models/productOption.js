@@ -1,16 +1,14 @@
 const mongoose = require("mongoose");
 const { toJSON, paginate } = require("./plugins");
 
-const productOption =new mongoose.Schema(
+const productOption = new mongoose.Schema(
   {
-    subCategoryID: {
+    subcategory: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "subCategory",
+      required: true,
     },
-    categoryID: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Category",
-    },
+
     name: {
       type: String,
       required: true,
@@ -21,11 +19,6 @@ const productOption =new mongoose.Schema(
   {
     timestamps: true,
   }
-);
-
-productOption.index(
-  { name: 1 },
-  { unique: true, partialFilterExpression: { deletedAt: { $eq: null } } }
 );
 
 productOption.plugin(toJSON);

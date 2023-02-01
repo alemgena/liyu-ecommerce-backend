@@ -1,10 +1,10 @@
 const httpStatus = require("http-status");
-const { subCategory } = require("../models");
+const { Subcategory } = require("../models");
 const ApiError = require("../utils/ApiError");
 
 exports.add = async (body) => {
   return new Promise((resolve, reject) => {
-    if (subCategory.isNameTaken(body.name)) {
+    if (Subcategory.isNameTaken(body.name)) {
       return reject(
         new ApiError(
           httpStatus.BAD_REQUEST,
@@ -12,7 +12,7 @@ exports.add = async (body) => {
         )
       );
     }
-    subCategory.create(body, (err, data) => {
+    Subcategory.create(body, (err, data) => {
       if (err) {
         return reject(
           new ApiError(
@@ -29,7 +29,7 @@ exports.add = async (body) => {
 
 exports.delete = async (id) => {
   return new Promise((resolve, reject) => {
-    subCategory.findById(id, async (err, data) => {
+    Subcategory.findById(id, async (err, data) => {
       if (err) {
         return reject(
           new ApiError(
@@ -53,7 +53,7 @@ exports.delete = async (id) => {
 
 exports.update = async (id, updateBody) => {
   return new Promise((resolve, reject) => {
-    subCategory.findById(id, (err, data) => {
+    Subcategory.findById(id, (err, data) => {
       if (err) {
         return reject(
           new ApiError(
@@ -68,7 +68,7 @@ exports.update = async (id, updateBody) => {
           new ApiError(httpStatus.NOT_FOUND, "Sub category not found")
         );
       }
-      if (data.name && subCategory.isNameTaken(data.name, id)) {
+      if (data.name && Subcategory.isNameTaken(data.name, id)) {
         return reject(
           new ApiError(
             httpStatus.BAD_REQUEST,
@@ -85,7 +85,7 @@ exports.update = async (id, updateBody) => {
 
 exports.get = async (id) => {
   return new Promise((resolve, reject) => {
-    subCategory.findById(id, async (err, data) => {
+    Subcategory.findById(id, async (err, data) => {
       if (err) {
         return reject(
           new ApiError(

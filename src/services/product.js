@@ -1,9 +1,58 @@
 const httpStatus = require("http-status");
-const { Product, ProductImage } = require("../models");
+const {
+  Product,
+  ProductImage,
+  OptionValue,
+  ProductOption,
+  Subcategory,
+} = require("../models");
 const ApiError = require("../utils/ApiError");
 
-exports.add = async (productBody) => {
-  return Product.create(productBody);
+exports.add = async (productData) => {
+  // Check if the subcategory exists
+  // return new Promise(async (resolve, reject) => {
+  const subcategory = await Subcategory.findById(productData.subcategory);
+  if (!subcategory) {
+    throw new ApiError(httpStatus.BAD_REQUEST, "Subcategory not found");
+  }
+
+  // Check if the options exist
+  const optionIds = productData.options.map((option) => option.id);
+  const options = await ProductOption.find({
+    _id: { $in: optionIds },
+    subcategory: productData.subcategory,
+  });
+  if (options.length !== optionIds.length) {
+    throw new ApiError(httpStatus.BAD_REQUEST, "One or more options not found");
+  }
+
+  // Check if the option values exist
+  for (const value of productData.options.map((option) => option.values)) {
+    const optionValues = await OptionValue.find({
+      _id: { $in: value },
+    });
+    if (
+      optionValues.length !==
+      productData.options.map((option) => option.values).length
+    ) {
+      throw new ApiError(
+        httpStatus.BAD_REQUEST,
+        "One or more options not found"
+      );
+    }
+  }
+
+  // Create the new product document
+  const newProduct = new Product({
+    ...productData,
+    subcategory: subcategory._id,
+    options: productData.options,
+  });
+
+  // Save the new product to the database
+  await newProduct.save();
+  return newProduct.populate("subcategory options.id options.values");
+  // });
 };
 
 exports.list = async () => {
@@ -29,7 +78,6 @@ exports.queryProducts = async (filter, options) => {
   return products;
 };
 
-
 exports.update = async (id, productData) => {
   const product = await Product.findById(id);
   if (!product) {
@@ -45,19 +93,18 @@ exports.update = async (id, productData) => {
 
 exports.uploadProductImages = async (files, id) => {
   const product = await Product.findById(id);
-  if(!product){
+  if (!product) {
     throw new ApiError(httpStatus.NOT_FOUND, "product not found");
   }
-  let images=[]
+  let images = [];
   for (let type of files) {
     let imageUri = `images/${type.filename}`;
-    images.push(imageUri)
+    images.push(imageUri);
   }
-  product.imagesURL=images
+  product.imagesURL = images;
   await product.save();
 
   return "Upload Images Successfully ";
-
 };
 exports.delete = async (id) => {
   const product = await Product.findById(id);
@@ -77,16 +124,16 @@ exports.delete = async (id) => {
 exports.viewProductImage = async (id) => {
   const productImage = await ProductImage.find({ productId: id }).populate({
     path: "productId",
-    match: { state:"ACTIVE" },
+    match: { state: "ACTIVE" },
   });
   if (!productImage) {
     throw new ApiError(httpStatus.BAD_REQUEST, "product image not found");
   }
   return productImage;
 };
-exports.viewImages = async() => {
-  return  ProductImage.find({ }).populate({
+exports.viewImages = async () => {
+  return ProductImage.find({}).populate({
     path: "productId",
-    match: { state:"ACTIVE" },
+    match: { state: "ACTIVE" },
   });
 };
