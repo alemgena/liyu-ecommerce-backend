@@ -2,6 +2,13 @@ const httpStatus = require("http-status");
 const { Category } = require("../models");
 const ApiError = require("../utils/ApiError");
 exports.add = async (categoryBody) => {
+  
+  if (await Category.isNameTaken(categoryBody.name)) {
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      "category with this name already exist"
+    );
+  }
   return Category.create(categoryBody);
 };
 
