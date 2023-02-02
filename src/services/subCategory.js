@@ -1,8 +1,6 @@
 const httpStatus = require("http-status");
-const { subCategory, Category } = require("../models");
 const ApiError = require("../utils/ApiError");
 const { Subcategory } = require("../models");
-const ApiError = require("../utils/ApiError");
 
 exports.add = async (body) => {
   return new Promise(async(resolve, reject) => {
@@ -78,9 +76,9 @@ exports.update = async (id, updateBody) => {
           )
         );
       }
-      Object.assign(Subcategory, updateBody);
-      Subcategory.save();
-      resolve(Subcategory);
+      Object.assign(data, updateBody);
+      data.save();
+      resolve(data);
     });
   });
 };
