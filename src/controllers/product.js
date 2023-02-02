@@ -7,7 +7,8 @@ const ObjectID = require("mongodb").ObjectId;
 const SuccessResponse = require("../utils/successResponse");
 const ApiError = require("../utils/ApiError");
 exports.add = catchAsync(async (req, res) => {
-  const data = await product.add(req.body);
+  const body = { seller: req.user.id, ...req.body };
+  const data = await product.add(body);
   res
     .status(httpStatus.CREATED)
     .send(new SuccessResponse(httpStatus.CREATED, "", data));
@@ -24,17 +25,14 @@ exports.view = catchAsync(async (req, res) => {
 });
 
 exports.queryProducts = catchAsync(async (req, res) => {
-  const filter = pick(req.query, [
-    "name",
-    "description",
-    "state",
-    "search",
-    "premuim",
-    "featured",
-    "price",
-    "allergies",
+  const filter = pick(req.query, ["filter", "search"]);
+  const options = pick(req.query, [
+    "sortBy",
+    "limit",
+    "page",
+    "paginate",
+    "populate",
   ]);
-  const options = pick(req.query, ["sortBy", "limit", "page", "paginate"]);
   const data = await product.queryProducts(filter, options);
   res
     .status(httpStatus.OK)
@@ -47,14 +45,12 @@ exports.update = catchAsync(async (req, res) => {
   }
   const original = await product.view(req.params.id);
   const data = await product.update(req.params.id, req.body);
-  res
-    .status(httpStatus.OK)
-    .send(
-      new SuccessResponse(httpStatus.OK, "Successfully updated product", {
-        original: original,
-        edited: data,
-      })
-    );
+  res.status(httpStatus.OK).send(
+    new SuccessResponse(httpStatus.OK, "Successfully updated product", {
+      original: original,
+      edited: data,
+    })
+  );
 });
 
 exports.uploadProductImages = catchAsync(async (req, res) => {
@@ -62,8 +58,8 @@ exports.uploadProductImages = catchAsync(async (req, res) => {
     throw new ApiError(httpStatus.NOT_FOUND, "Product Id is not valid");
   }
   await uploadImage(req, res);
-  if(req.files.length===0){
-      throw new ApiError(httpStatus.BAD_REQUEST, "Pleas Select One File");
+  if (req.files.length === 0) {
+    throw new ApiError(httpStatus.BAD_REQUEST, "Pleas Select One File");
   }
   const data = await product.uploadProductImages(req.files, req.params.id);
   res

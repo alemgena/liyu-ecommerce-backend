@@ -40,18 +40,30 @@ const paginate = (schema) => {
       options.page && parseInt(options.page, 10) > 0
         ? parseInt(options.page, 10)
         : 1;
+
     const skip = (page - 1) * limit;
-    const newFileter = {
-      filter,
+    const obj = {};
+
+    if (filter.filter) {
+      const arr = filter.filter.split(",");
+
+      arr.forEach((item) => {
+        const keyValue = item.split(":");
+        obj[keyValue[0]] = keyValue[1];
+      });
+    }
+
+    const newFilter = {
+      ...obj,
       ...(filter.search != undefined && {
         $text: {
           $search: filter.search,
         },
       }),
     };
-    const countPromise = this.countDocuments(newFileter).exec();
+    const countPromise = this.countDocuments(newFilter).exec();
 
-    let docsPromise = this.find(newFileter)
+    let docsPromise = this.find(newFilter)
       .collation({
         locale: "en",
         strength: 2,
@@ -80,7 +92,7 @@ const paginate = (schema) => {
       const totalPages = Math.ceil(totalResults / limit);
       const result = {
         results,
-        metaData: { page, limit, totalPages, totalResults, filter, sort },
+        metaData: { page, limit, totalPages, totalResults, filter: obj, sort },
       };
       return Promise.resolve(result);
     });

@@ -89,7 +89,7 @@ exports.loginUserWithEmailAndPassword = async (email, password) => {
           new ApiError(httpStatus.UNAUTHORIZED, "Incorrect email or password")
         );
       }
-      resolve(user);
+      resolve(data);
     });
   });
 };
