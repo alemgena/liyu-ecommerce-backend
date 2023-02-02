@@ -40,7 +40,8 @@ exports.get = catchAsync(async (req, res) => {
   res.send(
     new SuccessResponse(
       httpStatus.OK,
-      { data: result, }
+      " ",
+      result
     )
   );
 });
