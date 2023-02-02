@@ -14,7 +14,7 @@ const advertisement=require("./houseAdvertisement")
 const adds=require('./adds')
 const feedBack=require('./feedBack')
 const productVariant = require("./variant");
-
+const shop=require("./shop")
 const addsView=require('./addsView')
 const Routers = {
   auth,
@@ -27,6 +27,7 @@ const Routers = {
   socials,
   upload,
   newsLetter,
+  shop,
   spam,
   addsView,
   favourite,
