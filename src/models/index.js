@@ -16,3 +16,4 @@ module.exports.ActivityLog = require("./activityLog");
 module.exports.ProductOption = require("./productOption");
 module.exports.OptionValue = require("./productOptionsValue");
 module.exports.ProductVariant = require("./productVariant");
+module.exports.Chat=require('./chat')
