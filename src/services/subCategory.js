@@ -76,9 +76,9 @@ exports.update = async (id, updateBody) => {
           )
         );
       }
-      Object.assign(Subcategory, updateBody);
-      Subcategory.save();
-      resolve(Subcategory);
+      Object.assign(data, updateBody);
+      data.save();
+      resolve(data);
     });
   });
 };
