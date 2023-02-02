@@ -84,7 +84,7 @@ exports.update = async (id, updateBody) => {
 };
 exports.get = async (id) => {
   return new Promise((resolve, reject) => {
-    subCategory
+    Subcategory
       .findById(id)
       .populate("product")
       .exec(async (err, data) => {
