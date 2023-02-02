@@ -13,6 +13,7 @@ const notification = require("./notification");
 const advertisement=require("./houseAdvertisement")
 const adds=require('./adds')
 const feedBack=require('./feedBack')
+const productVariant = require("./variant");
 
 const addsView=require('./addsView')
 const Routers = {
@@ -31,7 +32,8 @@ const Routers = {
   favourite,
   faq,
   notification,
-  advertisement
+  advertisement,
+  productVariant,
 };
 
 module.exports = Routers;

@@ -1,7 +1,9 @@
 const express = require("express");
 const validate = require("../../middlewares/validate");
 const productValidation = require("../../validations/product");
+const productVariantValidation = require("../../validations/productVariant");
 const productController = require("../../controllers/product");
+const productVariantController = require("../../controllers/productVariant");
 const auth = require("../../middlewares/auth");
 
 const router = express.Router();
@@ -24,5 +26,12 @@ router.patch(
 router.post("/uploadImages/:id", productController.uploadProductImages);
 
 router.delete("/:id", auth(), productController.delete);
+
+router.post(
+  "/:id/variants",
+  validate(productVariantValidation.add),
+  auth(),
+  productVariantController.add
+);
 
 module.exports = router;

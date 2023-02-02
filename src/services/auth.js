@@ -89,11 +89,6 @@ exports.loginUserWithEmailAndPassword = async (email, password) => {
           new ApiError(httpStatus.UNAUTHORIZED, "Incorrect email or password")
         );
       }
-     /* if (! data.isEmailVerified) {
-        return reject(
-          new ApiError(httpStatus.UNAUTHORIZED, "verify your account")
-        );
-      }*/
       resolve(data);
     });
   });

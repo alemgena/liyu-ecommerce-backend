@@ -59,4 +59,4 @@ subCategorySchema.set('toObject', { virtuals: true });
 subCategorySchema.plugin(paginate);
 subCategorySchema.plugin(toJSON);
 
-module.exports = subCategory = mongoose.model("subCategory", subCategorySchema);
+module.exports = Subcategory = mongoose.model("Subcategory", subCategorySchema);
