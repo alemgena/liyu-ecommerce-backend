@@ -23,6 +23,7 @@
     "lodash": "^4.17.21",
     "moment": "^2.29.4",
     "mongoose": "^6.8.1",
+    "mongoose-lean-virtuals": "^0.9.1",
     "mongoose-delete": "^0.5.4",
     "mongoose-softdelete": "^1.2.0",
     "morgan": "^1.10.0",

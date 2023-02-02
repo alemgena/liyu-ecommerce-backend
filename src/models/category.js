@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
 const { toJSON, paginate } = require("./plugins");
-
+const mongooseLeanVirtuals = require('mongoose-lean-virtuals');
 const categorySchema = mongoose.Schema(
   {
     name: {
@@ -44,7 +44,15 @@ categorySchema.statics.isNameTaken = async function (
   const data = await this.findOne({ name, _id: { $ne: excludecategoryId } });
   return !!data;
 };
-
+categorySchema.virtual('subcategory', {
+  ref: 'subCategory',
+  localField: '_id',
+  foreignField: 'category',
+  match: { deletedAt: null }
+});
+categorySchema.plugin(mongooseLeanVirtuals);
+categorySchema.set('toJSON', { virtuals: true });
+categorySchema.set('toObject', { virtuals: true });
 categorySchema.plugin(toJSON);
 categorySchema.plugin(paginate);
 module.exports = Category = mongoose.model("Category", categorySchema);
