@@ -24,7 +24,7 @@ publish:
   tags:
     - deployment
   services:
-    - docker:dind
+    - docker:19-dind
   # before_script:
   #   - docker info
   #   - docker-compose --version
