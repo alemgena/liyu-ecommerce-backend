@@ -14,6 +14,5 @@ publish:
     - docker build  -t $TAG_LATEST .
     - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
     - docker push $TAG_LATEST
-    - docker rmi -f $(docker images --filter "dangling=true" -q --no-trunc) || clean_up_status=$?
   only:
     - cicd-setup
