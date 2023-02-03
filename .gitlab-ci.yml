@@ -1,5 +1,5 @@
-# stages:
-#   - publish
+stages:
+  - publish
 
 # variables:
 #   TAG_LATEST: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_NAME:latest
@@ -18,16 +18,18 @@
 #     - cicd-setup
 
 # .gitlab-ci.yml
-image: docker
-services:
-  - docker:dind
-before_script:
-  - docker info
-  - docker-compose --version
-build:
+publish:
+  image: docker:latest
+  stage: publish
   tags:
-    - deployment
+      - deployment
+  services:
+    - docker:dind
+  before_script:
+    - docker info
+    - docker-compose --version
   script:
-    - apk add --no-cache docker-compose
-    - docker-compose up -d
+     - apk add --no-cache docker-compose
+     - docker-compose up -d 
+    
 
