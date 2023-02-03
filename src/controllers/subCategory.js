@@ -37,12 +37,12 @@ exports.update = catchAsync(async (req, res) => {
   );
 });
 exports.get = catchAsync(async (req, res) => {
-  const data = await subCategory.get(req.params.id);
+  const result = await subCategory.get(req.params.id);
   res.send(
     new SuccessResponse(
       httpStatus.OK,
       " ",
-      data
+      result
     )
   );
 });

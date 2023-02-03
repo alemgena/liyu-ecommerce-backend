@@ -45,7 +45,7 @@ categorySchema.statics.isNameTaken = async function (
   return !!data;
 };
 categorySchema.virtual('subcategory', {
-  ref: 'subCategory',
+  ref: 'Subcategory',
   localField: '_id',
   foreignField: 'category',
   match: { deletedAt: null }

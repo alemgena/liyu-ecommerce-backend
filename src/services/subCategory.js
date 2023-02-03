@@ -3,7 +3,7 @@ const ApiError = require("../utils/ApiError");
 const { Subcategory } = require("../models");
 
 exports.add = async (body) => {
-  return new Promise(async(resolve, reject) => {
+  return new Promise(async (resolve, reject) => {
     if (await Subcategory.isNameTaken(body.name)) {
       return reject(
         new ApiError(
@@ -53,7 +53,7 @@ exports.delete = async (id) => {
 
 exports.update = async (id, updateBody) => {
   return new Promise((resolve, reject) => {
-    Subcategory.findById(id, async(err, data) => {
+    Subcategory.findById(id, async (err, data) => {
       if (err) {
         return reject(
           new ApiError(
@@ -68,7 +68,7 @@ exports.update = async (id, updateBody) => {
           new ApiError(httpStatus.NOT_FOUND, "Sub category not found")
         );
       }
-      if (data.name &&  await Subcategory.isNameTaken(data.name, id)) {
+      if (data.name && (await Subcategory.isNameTaken(data.name, id))) {
         return reject(
           new ApiError(
             httpStatus.BAD_REQUEST,
@@ -84,8 +84,7 @@ exports.update = async (id, updateBody) => {
 };
 exports.get = async (id) => {
   return new Promise((resolve, reject) => {
-    Subcategory
-      .findById(id)
+    Subcategory.findById(id)
       .populate("product")
       .exec(async (err, data) => {
         if (err) {

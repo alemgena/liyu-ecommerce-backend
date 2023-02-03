@@ -56,17 +56,22 @@ app.use("/api/upload", routers.upload);
 app.use("/api/newsletters", routers.newsLetter);
 app.use("/api/favourites", routers.favourite);
 app.use("/api/faqs", routers.faq);
-app.use("/api/notifications",routers.notification)
-app.use("/api/advertisement",routers.advertisement)
+app.use("/api/notifications", routers.notification);
+app.use("/api/advertisement", routers.advertisement);
 app.use("/api/adds", routers.adds);
-app.use("/api/feedBack",routers.feedBack)
-app.use("/api/addsView",routers.addsView)
+app.use("/api/feedBack", routers.feedBack);
+app.use("/api/addsView", routers.addsView);
 app.use("/api/variants", routers.productVariant);
+<<<<<<< HEAD
 app.use("/api/shops",routers.shop)
+=======
+app.use("/api/options", routers.productOption);
+app.use("/api/values", routers.optionValues);
+
+>>>>>>> dev
 app.use((req, res, next) => {
   next(new ApiError(res, httpStatus.NOT_FOUND, "Not found"));
 });
-
 
 // convert error to ApiError, if needed
 app.use(errorConverter);
