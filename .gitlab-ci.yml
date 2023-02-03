@@ -23,7 +23,7 @@ services:
   - docker:dind
 build:
   tags:
-    - gitlab-runner
+    - deployment
   script:
     - apk add --no-cache docker-compose
     - docker-compose up -d
