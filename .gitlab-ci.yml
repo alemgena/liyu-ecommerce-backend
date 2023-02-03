@@ -21,6 +21,9 @@
 image: docker
 services:
   - docker:dind
+before_script:
+  - docker info
+  - docker-compose --version
 build:
   tags:
     - deployment
