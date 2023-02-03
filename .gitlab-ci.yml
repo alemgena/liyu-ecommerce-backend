@@ -20,7 +20,7 @@
 # .gitlab-ci.yml
 image: docker
 services:
-  - docker:dind    
+  - docker:19-dind   
 build:
   tags:
     - deployment
