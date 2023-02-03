@@ -29,6 +29,6 @@ publish:
   #   - docker info
   #   - docker-compose --version
   script:
-     - docker-compose up -d 
+     - docker compose up -d 
     
 
