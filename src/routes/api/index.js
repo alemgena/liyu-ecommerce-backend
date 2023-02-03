@@ -10,12 +10,14 @@ const spam = require("./spam");
 const favourite = require("./favourite");
 const faq = require("./faq");
 const notification = require("./notification");
-const advertisement=require("./houseAdvertisement")
-const adds=require('./adds')
-const feedBack=require('./feedBack')
+const advertisement = require("./houseAdvertisement");
+const adds = require("./adds");
+const feedBack = require("./feedBack");
 const productVariant = require("./variant");
+const productOption = require("./options");
+const optionValues = require("./optionValues");
 
-const addsView=require('./addsView')
+const addsView = require("./addsView");
 const Routers = {
   auth,
   product,
@@ -34,6 +36,8 @@ const Routers = {
   notification,
   advertisement,
   productVariant,
+  productOption,
+  optionValues,
 };
 
 module.exports = Routers;
