@@ -10,7 +10,7 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 COPY package-lock.json ./
 RUN touch /.env
-COPY .env.test ./.env
+COPY .env ./.env
 
 RUN npm install
 
