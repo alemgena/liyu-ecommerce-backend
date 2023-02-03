@@ -43,6 +43,7 @@ exports.get = catchAsync(async (req, res) => {
       httpStatus.OK,
       " ",
       result
+
     )
   );
 });
