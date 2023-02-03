@@ -20,7 +20,10 @@
 # .gitlab-ci.yml
 image: docker
 services:
-  - docker:dind   
+  - docker:dind
+  - DOCKER_HOST:tcp://docker:2375/
+  - DOCKER_DRIVER:overlay2
+  - DOCKER_TLS_CERTDIR:""   
 build:
   tags:
     - deployment
