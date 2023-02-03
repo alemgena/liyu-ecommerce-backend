@@ -12,7 +12,7 @@ publish:
   tags:
     - deployment
   services:
-    - docker:dind
+    - docker:19-dind
   script:
     - docker build  -t $TAG_LATEST .
     - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
