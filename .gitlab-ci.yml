@@ -21,7 +21,6 @@
 image: docker
 services:
   - docker:dind
-  - DOCKER_HOST:tcp://localhost:2375/
 build:
   tags:
     - deployment
