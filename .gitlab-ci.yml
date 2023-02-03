@@ -1,18 +1,28 @@
-stages:
-  - publish
+# stages:
+#   - publish
 
-variables:
-  TAG_LATEST: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_NAME:latest
-publish:
-  image: docker:latest
-  stage: publish
-  tags:
-    - deployment
-  services:
-    - docker:dind
+# variables:
+#   TAG_LATEST: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_NAME:latest
+# publish:
+#   image: docker:latest
+#   stage: publish
+#   tags:
+#     - deployment
+#   services:
+#     - docker:dind
+#   script:
+#     - docker build  -t $TAG_LATEST .
+#     - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
+#     - docker push $TAG_LATEST
+#   only:
+#     - cicd-setup
+
+# .gitlab-ci.yml
+image: docker
+services:
+  - docker:dind    
+build:
   script:
-    - docker build  -t $TAG_LATEST .
-    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
-    - docker push $TAG_LATEST
-  only:
-    - cicd-setup
+    - apk add --no-cache docker-compose
+    - docker-compose up -d
+

@@ -9,12 +9,12 @@ WORKDIR /usr/src/app
 
 COPY package*.json ./
 COPY package-lock.json ./
-COPY .env.test ./.env
+COPY .env ./
 
 RUN npm install
 
 # Bundle app source
 COPY . .
 
-EXPOSE 8080
+EXPOSE 3000:3000
 CMD [ "npm", "start" ]
