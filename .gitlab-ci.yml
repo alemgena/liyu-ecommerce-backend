@@ -20,11 +20,12 @@
 # .gitlab-ci.yml
 image: docker
 services:
-  - docker:19-dind   
+  - docker:dind   
 build:
   tags:
     - deployment
   script:
+    - export DOCKER_HOST=tcp://127.0.0.1:2375 && docker build --pull -t ${CI_REGISTRY_IMAGE} .
     - apk add --no-cache docker-compose
     - docker-compose up -d
 
