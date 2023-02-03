@@ -25,7 +25,6 @@ build:
   tags:
     - deployment
   script:
-    - export DOCKER_HOST=tcp://165.232.42.207:2375 && docker build --pull -t ${CI_REGISTRY_IMAGE} .
     - apk add --no-cache docker-compose
     - docker-compose up -d
 
