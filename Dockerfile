@@ -9,7 +9,7 @@ WORKDIR /usr/src/app
 
 COPY package*.json ./
 COPY package-lock.json ./
-COPY .env ./
+COPY .env.test ./.env
 
 RUN npm install
 
