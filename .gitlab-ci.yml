@@ -22,7 +22,7 @@ publish:
   image: docker:latest
   stage: publish
   tags:
-      - deployment
+    - deployment
   services:
     - docker:dind
   before_script:
