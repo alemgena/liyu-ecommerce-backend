@@ -24,10 +24,10 @@ publish:
   tags:
     - deployment
   services:
-    - docker:dind
-    - alias:dockerhost
+    - name: docker:dind
+      alias: thedockerhost
   variables:
-    DOCKER_HOST: tcp://dockerhost:2375/
+    DOCKER_HOST: tcp://thedockerhost:2375/
     DOCKER_DRIVER: overlay2
     DOCKER_TLS_CERTDIR: ""
 
