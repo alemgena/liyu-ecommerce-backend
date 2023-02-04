@@ -16,7 +16,11 @@ publish:
     - docker info
     - docker-compose --version
     - apk add --no-cache docker-compose
+    
 
   script:
-     - docker compose up -d 
+    - docker-compose down
+    - docker-compose build
+    - docker-compose push
+    - docker compose up -d 
     
