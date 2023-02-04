@@ -1,37 +1,39 @@
 stages:
   - publish
 
-# variables:
-#   TAG_LATEST: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_NAME:latest
-# publish:
-#   image: docker:latest
-#   stage: publish
-#   tags:
-#     - deployment
-#   services:
-#     - docker:dind
-#   script:
-#     - docker build  -t $TAG_LATEST .
-#     - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
-#     - docker push $TAG_LATEST
-#   only:
-#     - cicd-setup
-
-# .gitlab-ci.yml
+variables:
+  TAG_LATEST: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_NAME:latest
 publish:
   image: docker:latest
   stage: publish
   tags:
     - deployment
   services:
-    - name: docker:dind
+    - docker:dind
   variables:
     DOCKER_HOST: tcp://docker:2375/
-
-  before_script:
-    - docker info
-    - docker-compose --version
   script:
-     - docker compose up -d 
+    - docker build  -t $TAG_LATEST .
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
+    - docker push $TAG_LATEST
+  only:
+    - cicd-setup
+
+# .gitlab-ci.yml
+# publish:
+#   image: docker:latest
+#   stage: publish
+#   tags:
+#     - deployment
+#   services:
+#     - name: docker:dind
+#   variables:
+#     DOCKER_HOST: tcp://docker:2375/
+
+#   before_script:
+#     - docker info
+#     - docker-compose --version
+#   script:
+#      - docker compose up -d 
     
 
