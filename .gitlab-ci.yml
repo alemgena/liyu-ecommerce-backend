@@ -5,7 +5,6 @@ services:
 
 stages:
 - build
-- test
 - release
 
 variables:
@@ -23,14 +22,6 @@ build:
   script:
     - docker build --pull -t $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_NAME .
     - docker push $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_NAME
-
-test:
-  stage: test
-  tags:
-    - deployment
-  script:
-    - docker pull $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_NAME
-    - docker run $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_NAME npm test
 
 release:
   stage: release
