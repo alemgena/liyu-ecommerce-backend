@@ -6,7 +6,7 @@ services:
 stages:
 - build
 # - test
-# - release
+- release
 
 variables:
   DOCKER_HOST: tcp://thedockerhost:2375/
@@ -23,8 +23,8 @@ build:
   tags:
     - deployment
   script:
-    - docker build --name ecommerce-api --pull -t $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_NAME .
-    - docker push $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_NAME
+    - docker build --pull -t $CI_REGISTRY_IMAGE .
+    - docker push $CI_REGISTRY_IMAGE
 
 # test:
 #   stage: test
@@ -34,11 +34,11 @@ build:
 #     - docker pull $PROJECT_IMAGE
 #     - docker run $CI_REGISTRY_IMAGE npm test
 
-# release:
-#   stage: release
-#   tags:
-#     - deployment
-#   script:
-#     - docker pull $PROJECT_IMAGE
-#     - docker tag $PROJECT_IMAGE $RELEASE_IMAGE
-#     - docker push $RELEASE_IMAGE
+release:
+  stage: release
+  tags:
+    - deployment
+  script:
+    - docker pull $CI_REGISTRY_IMAGE
+    - docker tag $CI_REGISTRY_IMAGE
+    - docker push $CI_REGISTRY_IMAGE
