@@ -16,18 +16,24 @@ before_script:
 
 build:
   stage: build
+  tags:
+    - deployment
   script:
     - docker build --pull -t $PROJECT_IMAGE .
     - docker push $PROJECT_IMAGE
 
 test:
   stage: test
+  tags:
+    - deployment
   script:
     - docker pull $PROJECT_IMAGE
     - docker run $TEST_IMAGE npm test
 
 release:
   stage: release
+  tags:
+    - deployment
   script:
     - docker pull $PROJECT_IMAGE
     - docker tag $PROJECT_IMAGE $RELEASE_IMAGE
