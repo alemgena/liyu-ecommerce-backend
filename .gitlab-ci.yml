@@ -21,6 +21,5 @@ publish:
   script:
     - docker-compose down
     - docker-compose build
-    - docker-compose push
     - docker compose up -d 
     
