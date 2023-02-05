@@ -12,7 +12,7 @@ variables:
   DOCKER_HOST: tcp://thedockerhost:2375/
   DOCKER_DRIVER: overlay2
   DOCKER_TLS_CERTDIR: ""
-  PROJECT_IMAGE: gitlab.com/techmohas/ecommerce-backend/cicd-setup:$CI_COMMIT_REF_NAME
+  PROJECT_IMAGE: gitlab.com/techmohas/ecommerce-backend/cicd-setup:latest
   RELEASE_IMAGE: gitlab.com/techmohas/ecommerce-backend/cicd-setup:latest
 
 before_script:
