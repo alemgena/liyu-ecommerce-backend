@@ -10,7 +10,8 @@ publish:
   variables:
     DOCKER_HOST: tcp://docker:2375/
     DOCKER_DRIVER: overlay2
-    DOCKER_TLS_CERTDIR: ""
+    TEST_IMAGE: registry.gitlab.com/techmohas/ecommerce-backend/cicd-setup.nl:$CI_COMMIT_REF_SLUG
+    RELEASE_IMAGE: registry.gitlab.com/techmohas/ecommerce-backend/cicd-setup.nl:release
 
   before_script:
     - docker info
