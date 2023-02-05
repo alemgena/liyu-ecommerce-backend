@@ -8,6 +8,8 @@ stages:
 - release
 
 variables:
+  DOCKER_HOST: tcp://localhost:2375/
+  DOCKER_DRIVER: overlay2
   PROJECT_IMAGE: gitlab.com/techmohas/ecommerce-backend/cicd-setup:$CI_COMMIT_REF_NAME
   RELEASE_IMAGE: gitlab.com/techmohas/ecommerce-backend/cicd-setup:latest
 
