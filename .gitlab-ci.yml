@@ -40,5 +40,5 @@ release:
     - deployment
   script:
     - docker pull $CI_REGISTRY_IMAGE
-    - docker tag $CI_REGISTRY_IMAGE
+    # - docker tag $CI_REGISTRY_IMAGE
     - docker push $CI_REGISTRY_IMAGE
