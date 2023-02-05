@@ -12,7 +12,7 @@ publish:
   tags:
     - deployment
   services:
-    - docker:19-dind
+    - docker:dind
   script:
     - docker build -t $TAG_COMMIT -t $TAG_LATEST .
     - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
@@ -33,6 +33,5 @@ deploy:
     - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker run -d -p 80:80 --name $SERVICE_NAME $TAG_COMMIT"
   environment:
     name: production
-    url: http://165.232.42.207
   only:
     - cicd-setup
