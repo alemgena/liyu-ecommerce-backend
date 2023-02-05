@@ -1,41 +1,25 @@
-# stages:
-#   - publish
-# publish:
-#   image: docker:latest
-#   stage: publish
-#   tags:
-#     - deployment
-#   services:
-#     - name: docker:dind
-#   variables:
-#     DOCKER_HOST: tcp://docker:2375/
-#     DOCKER_DRIVER: overlay2
-#     TEST_IMAGE: registry.gitlab.com/techmohas/ecommerce-backend/cicd-setup.nl:$CI_COMMIT_REF_SLUG
-#     RELEASE_IMAGE: registry.gitlab.com/techmohas/ecommerce-backend/cicd-setup.nl:release
-
-#   before_script:
-#     - docker info
-#     - docker-compose --version
-#     - apk add --no-cache docker-compose
-    
-
-#   script:
-#     - docker-compose down
-#     - docker-compose build
-#     - docker compose up -d 
-
-services:
-  - name: docker:dind
-variables:
-    DOCKER_HOST: tcp://docker:2375/
-    DOCKER_DRIVER: overlay2
-before_script:
-  - docker info
-
-build_image:
+stages:
+  - publish
+publish:
+  image: docker:latest
+  stage: publish
   tags:
     - deployment
-  script:
-    - docker build -t my-docker-image .
-    - docker run my-docker-image /script/to/run/tests
+  services:
+    - name: docker:dind
+  variables:
+    DOCKER_HOST: tcp://docker:2375/
+    DOCKER_DRIVER: overlay2
+    # TEST_IMAGE: registry.gitlab.com/techmohas/ecommerce-backend/cicd-setup.nl:$CI_COMMIT_REF_SLUG
+    # RELEASE_IMAGE: registry.gitlab.com/techmohas/ecommerce-backend/cicd-setup.nl:release
+
+  before_script:
+    - docker info
+    - docker-compose --version
+    - apk add --no-cache docker-compose
     
+
+  script:
+    - docker-compose down
+    - docker-compose build
+    - docker compose up -d 
