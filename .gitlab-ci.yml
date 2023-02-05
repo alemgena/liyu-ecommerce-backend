@@ -25,6 +25,7 @@
 #     - docker compose up -d 
 variables:
     DOCKER_HOST: tcp://docker:2375/
+    DOCKER_DRIVER: overlay2
 before_script:
   - docker info
 
