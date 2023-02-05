@@ -31,3 +31,4 @@ release:
     - docker pull $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_NAME
     - docker push $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_NAME
     - docker compose up -d
+    - docker run --rm -d --name ecommerce-api $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_NAME
