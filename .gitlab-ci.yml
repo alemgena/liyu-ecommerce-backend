@@ -1,6 +1,7 @@
 image: docker:latest
 services:
-- docker:dind
+- name: docker:dind
+  alias: thedockerhost
 
 stages:
 - build
@@ -8,6 +9,9 @@ stages:
 - release
 
 variables:
+  DOCKER_HOST: tcp://thedockerhost:2375/
+  DOCKER_DRIVER: overlay2
+  DOCKER_TLS_CERTDIR: ""
   PROJECT_IMAGE: gitlab.com/techmohas/ecommerce-backend/cicd-setup:$CI_COMMIT_REF_NAME
   RELEASE_IMAGE: gitlab.com/techmohas/ecommerce-backend/cicd-setup:latest
 
@@ -18,13 +22,6 @@ build:
   stage: build
   tags:
     - deployment
-  services:
-   - name: docker:dind
-     alias: thedockerhost
-  variables:
-    DOCKER_HOST: tcp://thedockerhost:2375/
-    DOCKER_DRIVER: overlay2
-    DOCKER_TLS_CERTDIR: ""
   script:
     - docker build --pull -t $PROJECT_IMAGE .
     - docker push $PROJECT_IMAGE
@@ -33,13 +30,6 @@ test:
   stage: test
   tags:
     - deployment
-  services:
-   - name: docker:dind
-     alias: thedockerhost
-  variables:
-    DOCKER_HOST: tcp://thedockerhost:2375/
-    DOCKER_DRIVER: overlay2
-    DOCKER_TLS_CERTDIR: ""
   script:
     - docker pull $PROJECT_IMAGE
     - docker run $TEST_IMAGE npm test
@@ -48,16 +38,7 @@ release:
   stage: release
   tags:
     - deployment
-  services:
-   - name: docker:dind
-     alias: thedockerhost
-  variables:
-    DOCKER_HOST: tcp://thedockerhost:2375/
-    DOCKER_DRIVER: overlay2
-    DOCKER_TLS_CERTDIR: ""
   script:
     - docker pull $PROJECT_IMAGE
     - docker tag $PROJECT_IMAGE $RELEASE_IMAGE
     - docker push $RELEASE_IMAGE
-  only:
-    - cicd-setup
