@@ -24,7 +24,7 @@
 #     - docker-compose build
 #     - docker compose up -d 
 variables:
-    DOCKER_HOST: tcp://docker:2375/
+    DOCKER_HOST: tcp://165.232.42.207:2375/
 before_script:
   - docker info
 
