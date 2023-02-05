@@ -23,6 +23,9 @@
 #     - docker-compose down
 #     - docker-compose build
 #     - docker compose up -d 
+
+services:
+  - name: docker:dind
 variables:
     DOCKER_HOST: tcp://docker:2375/
     DOCKER_DRIVER: overlay2
