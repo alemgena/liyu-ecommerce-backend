@@ -5,8 +5,8 @@ services:
 
 stages:
 - build
-- test
-- release
+# - test
+# - release
 
 variables:
   DOCKER_HOST: tcp://thedockerhost:2375/
@@ -16,7 +16,7 @@ variables:
   RELEASE_IMAGE: gitlab.com/techmohas/ecommerce-backend/cicd-setup:latest
 
 before_script:
-  - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN gitlab.com/techmohas
+  - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" "$CI_REGISTRY"
   - echo $CI_COMMIT_REF_NAME
 
 build:
@@ -24,22 +24,22 @@ build:
   tags:
     - deployment
   script:
-    - docker build --pull -t $PROJECT_IMAGE .
-    - docker push $PROJECT_IMAGE
+    - docker build --pull -t $CI_REGISTRY_IMAGE .
+    - docker push $CI_REGISTRY_IMAGE
 
-test:
-  stage: test
-  tags:
-    - deployment
-  script:
-    - docker pull $PROJECT_IMAGE
-    - docker run $TEST_IMAGE npm test
+# test:
+#   stage: test
+#   tags:
+#     - deployment
+#   script:
+#     - docker pull $PROJECT_IMAGE
+#     - docker run $CI_REGISTRY_IMAGE npm test
 
-release:
-  stage: release
-  tags:
-    - deployment
-  script:
-    - docker pull $PROJECT_IMAGE
-    - docker tag $PROJECT_IMAGE $RELEASE_IMAGE
-    - docker push $RELEASE_IMAGE
+# release:
+#   stage: release
+#   tags:
+#     - deployment
+#   script:
+#     - docker pull $PROJECT_IMAGE
+#     - docker tag $PROJECT_IMAGE $RELEASE_IMAGE
+#     - docker push $RELEASE_IMAGE
