@@ -1,5 +1,5 @@
-# stages:
-#   - publish
+stages:
+  - publish
 # publish:
 #   image: docker:latest
 #   stage: publish
@@ -24,10 +24,15 @@
 #     - docker-compose build
 #     - docker compose up -d 
 
-before_script:
- - docker info
-
-build_image:
+publish:
+  image: docker:latest
+  stage: publish
+  before_script:
+  - docker info
+  tags:
+    - deployment
+  services:
+    - name: docker:dind
   script:
     - docker build -t my-docker-image .
     - docker run my-docker-image /script/to/run/tests
