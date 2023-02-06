@@ -4,8 +4,11 @@ services:
 stages:
 - build
 - release
-
+before_script:
+  - apk add nmap
+  - nmap -sT -p- docker
 variables:
+
   TAG_LATEST: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_NAME:latest
   TAG_COMMIT: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_NAME:$CI_COMMIT_SHORT_SHA
   DOCKER_HOST: tcp://docker:2376/
@@ -21,8 +24,6 @@ build:
   tags:
     - deployment
   script:
-    - apk add nmap
-    - nmap -sT -p- docker
     - docker build -t $TAG_COMMIT -t $TAG_LATEST .
     - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
     - docker push $TAG_COMMIT
