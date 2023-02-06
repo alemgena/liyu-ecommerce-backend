@@ -8,7 +8,6 @@ const productSchema = mongoose.Schema(
       type: String,
       required: true,
       minlength: 3,
-      trim: true,
     },
     description: {
       type: String,
@@ -29,6 +28,7 @@ const productSchema = mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Subcategory",
       required: true,
+      autopopulate: { maxDepth: 1 },
     },
     options: [
       {
@@ -36,12 +36,14 @@ const productSchema = mongoose.Schema(
           type: mongoose.Schema.Types.ObjectId,
           ref: "ProductOption",
           required: true,
+          autopopulate: { maxDepth: 1 },
         },
         values: [
           {
             type: mongoose.Schema.Types.ObjectId,
             ref: "OptionValue",
             required: true,
+            autopopulate: { maxDepth: 1 },
           },
         ],
       },
@@ -67,24 +69,17 @@ const productSchema = mongoose.Schema(
   },
   {
     timestamps: true,
-    toJSON: { virtuals: true },
+    // collation: { locale: "en", strength: 2 },
   }
 );
 
+productSchema.plugin(require(`mongoose-autopopulate`));
 productSchema.plugin(toJSON);
 productSchema.plugin(paginate);
+productSchema.set("toJSON", { virtuals: true });
+productSchema.set("toObject", { virtuals: true });
 
-// productSchema.virtual("variants", {
-//   ref: "ProductVariant",
-//   localField: "_id",
-//   foreignField: "product",
-//   match: { deleted: false },
-// });
 const Product = mongoose.model("Product", productSchema);
-
-// Product.collection.createIndex(
-//   { name: "text", description: "text" },
-//   { collation: { locale: "en", strength: 2 } }
-// );
+Product.collection.createIndex({ name: "text" });
 
 module.exports = Product;
