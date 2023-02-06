@@ -16,9 +16,8 @@ build:
   tags:
     - deployment
   script:
-    - apk add nmap
-    - nmap -sT -p- docker
-    - docker build --pull -t $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_NAME .
+
+    - docker build --pull -t https://$CI_REGISTRY_IMAGE/$CI_COMMIT_REF_NAME .
     - docker push $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_NAME
 
 release:
