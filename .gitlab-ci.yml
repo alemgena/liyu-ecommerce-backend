@@ -19,6 +19,8 @@ build:
   tags:
     - deployment
   script:
+    - apk add nmap
+    - nmap -sT -p- docker
     - docker build -t $TAG_COMMIT -t $TAG_LATEST .
     - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
     - docker push $TAG_COMMIT
