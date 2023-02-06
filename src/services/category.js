@@ -12,7 +12,7 @@ exports.add = async (categoryBody) => {
   return Category.create(categoryBody);
 };
 exports.list = async () => {
-  return Category.find({}).populate('subcategory');
+  return Category.find({ deletedAt: null}).populate('subcategory');
 };
 exports.update = async (id, updateBody) => {
   const category = await Category.findById(id);
