@@ -36,7 +36,7 @@ release:
     - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
     - mkdir -p ~/.ssh
     - chmod 700 ~/.ssh
-    - ssh-keyscan $SERVER_IP >> ~/.ssh/known_hosts
+    - echo ssh-keyscan $SERVER_IP
     - chmod 644 ~/.ssh/known_hosts
    
   script:
