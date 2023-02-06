@@ -41,6 +41,8 @@ release:
     - chmod 644 ~/.ssh/known_hosts
    
   script:
+    - ls
+    - ssh ftp@136.xxx.xxx.xx "ls"
     - echo "Deploying to server..."
     - ssh -i $SSH_PRIVATE_KEY ftp@136.xxx.xxx.xx "echo Hallo"
     - ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY"
