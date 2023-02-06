@@ -1,5 +1,5 @@
 const httpStatus = require("http-status");
-const { Category, subCategory } = require("../models");
+const { Category, Subcategory } = require("../models");
 const ApiError = require("../utils/ApiError");
 exports.add = async (categoryBody) => {
   
@@ -48,7 +48,7 @@ exports.delete = async (id) => {
   });
 };
 exports.listSubCategories = async (id) => {
-  return await subCategory.find(
+  return await Subcategory.find(
     { category: id, deletedAt: null },
     { category: 0, deletedAt: 0 }
   ).populate('product');
