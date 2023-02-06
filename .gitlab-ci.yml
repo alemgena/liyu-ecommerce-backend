@@ -1,4 +1,4 @@
-image: node:latest
+image: docker:latest
 services:
 - name: docker:dind
 stages:
@@ -28,7 +28,6 @@ build:
 release:
   image: alpine:latest
   stage: release
-
   tags:
     - deployment
   before_script:
