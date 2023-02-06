@@ -27,8 +27,10 @@ build:
 
 release:
   stage: release
+
   tags:
     - deployment
+    
   before_script:
     - apt update && apt install openssh-client
     - eval $(ssh-agent -s)
