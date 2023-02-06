@@ -1,14 +1,12 @@
 image: docker:latest
 services:
 - name: docker:dind
-  alias: ecommerce-backend
-
 stages:
 - build
 - release
 
 variables:
-  DOCKER_HOST: tcp://ecommerce-backend:2375/
+  DOCKER_HOST: tcp://loclhost:2375/
 
 before_script:
   - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" "$CI_REGISTRY"
