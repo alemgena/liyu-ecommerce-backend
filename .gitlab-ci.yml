@@ -42,5 +42,4 @@ release:
    
   script:
     - ls
-    - ssh ftp@136.xxx.xxx.xx "ls"
     - docker compose up -d
