@@ -30,17 +30,14 @@ release:
   tags:
     - deployment
   before_script:
-      - apk update && apk add openssh-client
-      - eval $(ssh-agent -s)
-      - ssh-add <(echo "$SSH_PRIVATE_KEY")
-      # - mkdir -p ~/.ssh
-      # - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
-
-      - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
-      - mkdir -p ~/.ssh
-      - chmod 700 ~/.ssh
-      - ssh-keyscan $SERVER_IP >> ~/.ssh/known_hosts
-      - chmod 644 ~/.ssh/known_hosts
+    - apt update && apt install openssh-client
+    - eval $(ssh-agent -s)
+    - mkdir -p ~/.ssh
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - chmod 700 ~/.ssh
+    - ssh-keyscan gitlab.com >> ~/.ssh/known_hosts
+    - chmod 644 ~/.ssh/known_hosts
+   
   script:
     - ssh $SERVER_USER@$SERVERIP_STAGING "docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY"
     - ssh $SERVER_USER@$SERVER_IP "docker pull $TAG"
