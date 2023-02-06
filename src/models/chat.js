@@ -5,7 +5,7 @@ let date_ob = new Date(ts);
 let date = date_ob.getDate();
 let month = date_ob.getMonth() + 1;
 let year = date_ob.getFullYear();
-let fullDate = year + "-" + month + "-" + date
+let fullDate = year + "-" + month + "-" + date;
 const chatSchema = new mongoose.Schema({
   message: {
     type: String,
@@ -13,7 +13,11 @@ const chatSchema = new mongoose.Schema({
   url: {
     type: String,
   },
-  product: { type: mongoose.Schema.Types.ObjectId, ref: "Product" },
+  product: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Product",
+    required: true,
+  },
   from: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
