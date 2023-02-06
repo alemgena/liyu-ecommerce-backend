@@ -42,4 +42,5 @@ release:
    
   script:
     - ls
-    - docker compose up -d
+    - ssh -i $SSH_PRIVATE_KEY -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP docker compose up -d
+    
