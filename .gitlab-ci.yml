@@ -26,6 +26,7 @@ build:
     - docker push $TAG_LATEST
 
 release:
+  image: alpine:latest
   stage: release
 
   tags:
@@ -42,5 +43,8 @@ release:
    
   script:
     - ls
-    - ssh -i $SSH_PRIVATE_KEY -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP docker compose up -d
+    - ssh $SERVER_USER@$SERVER_IP "docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY"
+    - ssh $SERVER_USER@$SERVER_IP "docker pull $TAG_LATEST"
+    - ssh $SERVER_USER@$SERVER_IP "docker service update --force $SERVICE_NAME"
+
     
