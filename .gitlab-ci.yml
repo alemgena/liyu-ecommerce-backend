@@ -43,8 +43,4 @@ release:
   script:
     - ls
     - ssh ftp@136.xxx.xxx.xx "ls"
-    - echo "Deploying to server..."
-    - ssh -i $SSH_PRIVATE_KEY ftp@136.xxx.xxx.xx "echo Hallo"
-    - ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY"
-    - ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker pull $TAG_COMMIT"
-    - ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker service update --force $SERVICE_NAME"
+    - docker compose up -d
