@@ -29,11 +29,15 @@ release:
   stage: release
   tags:
     - deployment
+  before_script:
+      - apk update && apk add openssh-client
+      - eval $(ssh-agent -s)
+      - echo "$SSH_KEY" | tr -d '\r' | ssh-add -
+      - mkdir -p ~/.ssh
+      - chmod 700 ~/.ssh
+      - ssh-keyscan $SERVER_IP >> ~/.ssh/known_hosts
+      - chmod 644 ~/.ssh/known_hosts
   script:
-    - chmod og= $ID_RSA
-    - apk update && apk add openssh-client
-    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY"
-    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker pull $TAG_COMMIT"
-    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker container rm -f $SERVICE_NAME || true"
-    - ssh -i $ID_RSA -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker run -d -p 80:80 --name $SERVICE_NAME $TAG_COMMIT"
- 
+    - ssh root@$SERVERIP_STAGING "docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY"
+    - ssh $SERVER_USER@$SERVER_IP "docker pull $TAG"
+    - ssh $SERVER_USER@$SERVER_IP "docker service update --force $SERVICE_NAME"
