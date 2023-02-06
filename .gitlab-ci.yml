@@ -1,4 +1,4 @@
-image: docker:latest
+image: node:latest
 services:
 - name: docker:dind
 stages:
@@ -33,7 +33,8 @@ release:
     - deployment
     
   before_script:
-    - apt update && apt install openssh-client
+    - chmod og= $SSH_PRIVATE_KEY
+    - apk update && apk add openssh-client
     - eval $(ssh-agent -s)
     - mkdir -p ~/.ssh
     - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
