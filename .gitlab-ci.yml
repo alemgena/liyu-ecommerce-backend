@@ -38,6 +38,6 @@ release:
       - ssh-keyscan $SERVER_IP >> ~/.ssh/known_hosts
       - chmod 644 ~/.ssh/known_hosts
   script:
-    - ssh root@$SERVERIP_STAGING "docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY"
+    - ssh $SERVER_USER@$SERVERIP_STAGING "docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY"
     - ssh $SERVER_USER@$SERVER_IP "docker pull $TAG"
     - ssh $SERVER_USER@$SERVER_IP "docker service update --force $SERVICE_NAME"
