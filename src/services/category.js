@@ -12,7 +12,7 @@ exports.add = async (categoryBody) => {
   return Category.create(categoryBody);
 };
 exports.list = async () => {
-  return Category.find({ deletedAt: null}).populate('subcategory');
+  return Category.find({}).populate('subcategory');
 };
 exports.update = async (id, updateBody) => {
   const category = await Category.findById(id);
@@ -41,8 +41,7 @@ exports.delete = async (id) => {
       if (!data) {
         return reject(new ApiError(httpStatus.NOT_FOUND, "category not found"));
       }
-      data.deletedAt = Date.now();
-      await data.save();
+      await data.delete();
       resolve(data);
     });
   });
