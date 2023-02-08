@@ -6,7 +6,7 @@ const optionValue = new mongoose.Schema(
   {
     option: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Option",
+      ref: "ProductOption",
       required: true,
     },
     value: { type: String, required: true, trim: true },
