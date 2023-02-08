@@ -12,7 +12,7 @@ exports.add = async (body) => {
             return reject(
               new ApiError(
                 httpStatus.NOT_FOUND,
-                "Error adding the chat category",
+                "Error adding the chat",
                 err
               )
             );
