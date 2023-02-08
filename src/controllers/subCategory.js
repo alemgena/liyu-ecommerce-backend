@@ -35,3 +35,13 @@ exports.update = catchAsync(async (req, res) => {
     )
   );
 });
+exports.get = catchAsync(async (req, res) => {
+  const result = await subCategory.get(req.params.id);
+  res.send(
+    new SuccessResponse(
+      httpStatus.OK,
+      " ",
+      result
+    )
+  );
+});

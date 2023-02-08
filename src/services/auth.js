@@ -76,15 +76,15 @@ exports.register = async (userBody) => {
   });
 };
 exports.loginUserWithEmailAndPassword = async (email, password) => {
-  return new Promise((resolve, reject) => {
-    User.findOne({ email }, (err, data) => {
+  return new Promise(async(resolve, reject) => {
+    User.findOne({ email },async (err, data) => {
       if (err) {
         return reject(
-          new ApiError(httpStatus.UNAUTHORIZED, "Unable to login", err)
+          new ApiError(httpStatus.UNAUTHORIZED, "Unable to login",)
         );
       }
 
-      if (!data || !data.isPasswordMatch(password)) {
+      if ( !data || ! await data.isPasswordMatch(password)) {
         return reject(
           new ApiError(httpStatus.UNAUTHORIZED, "Incorrect email or password")
         );

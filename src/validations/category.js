@@ -14,12 +14,6 @@ const add = {
             "string.min": "description must be longer than 4 characters",
             "any.required": "description is a required field",
         }),
-        parent_cat: Joi.string().required().min(1).messages({
-            "string.base": "parent_cat must be a string",
-            "string.empty": "parent_cat cannot be an empty field",
-            "any.required": "parent_cat is a required field",
-        }),
-
         imageURL: Joi.string().required().min(1).messages({
             "string.base": "image must be a string",
             "string.empty": "image cannot be an empty field",

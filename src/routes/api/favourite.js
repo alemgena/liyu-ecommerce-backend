@@ -12,7 +12,7 @@ router.post(
   favouriteController.add
 );
 router.get(
-  "/:id",
+  "", auth(),
   favouriteController.get
 );
 module.exports = router;

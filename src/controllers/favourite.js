@@ -9,6 +9,7 @@ exports.add = catchAsync(async (req, res) => {
   if (!ObjectID.isValid(req.body.product)) {
     throw new ApiError(httpStatus.NOT_FOUND, "data is  not valid");
   }
+  console.log(req.user.id)
   const body = { user: req.user.id, ...req.body };
   const data = await favourite.add(body);
   res
@@ -16,7 +17,7 @@ exports.add = catchAsync(async (req, res) => {
     .send(new SuccessResponse(httpStatus.CREATED, "", data));
 });
 exports.get = catchAsync(async (req, res) => {
-  const data = await favourite.get(req.params.id);
+  const data = await favourite.get(req.user.id);
   res.send(
     new SuccessResponse(
       httpStatus.OK,

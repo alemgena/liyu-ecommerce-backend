@@ -5,7 +5,7 @@ const activityLog = () =>
   catchAsync(async (req, res, next) => {
     res.on("finish", async function () {
       if (!(res.statusCode > 301 || res.statusCode < 200)) {
-        if (["PATCH" || "POST" || "DELETE" || "PUT"].indexOf(req.method) > -1) {
+        if (["PATCH", "POST", "DELETE", "PUT"].indexOf(req.method) > -1) {
           if (req.user) {
             var ip =
               req.headers["x-forwarded-for"]?.split(",").shift() ||

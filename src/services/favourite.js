@@ -27,23 +27,26 @@ exports.add = async (favouriteBody) => {
       });
 };
 exports.get = async (id) => {
-    return new Promise((resolve, reject) => {
-      Favourite.find({user:id}, async (err, data) => {
+  console.log(id)
+  return new Promise((resolve, reject) => {
+    Favourite.find({user:id})
+      .populate("product")
+      .exec(async (err, data) => {
         if (err) {
           return reject(
             new ApiError(
               httpStatus.NOT_FOUND,
-              "Error finding the favourite product",
+              "Error finding the Favourite",
               err
             )
           );
         }
         if (!data) {
           return reject(
-            new ApiError(httpStatus.NOT_FOUND, " Error finding the favourite product not found")
+            new ApiError(httpStatus.NOT_FOUND, "Favourite not found")
           );
         }
         resolve(data);
       });
-    });
-  };
+  });
+};
