@@ -12,7 +12,7 @@ CMD [ "npm", "start" ]
 
 FROM alpine:3.16.0
 WORKDIR /
-COPY --from=builder .env.test /ecommerce/.env 
+# COPY --from=builder .env.test /ecommerce/.env 
 COPY --from=builder /ecommerce .
 
 EXPOSE 5000
