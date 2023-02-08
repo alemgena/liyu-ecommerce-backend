@@ -5,7 +5,7 @@ const SuccessResponse = require("../utils/successResponse");
 
 exports.add = catchAsync(async (req, res) => {
     const body = { from: req.user.id, ...req.body };
-  const result = await chat.add({body });
+  const result = await chat.add(body );
   res
     .status(httpStatus.CREATED)
     .send(new SuccessResponse(httpStatus.CREATED, "", result));
