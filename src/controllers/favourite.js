@@ -6,10 +6,11 @@ const ApiError = require("../utils/ApiError");
 const ObjectID = require("mongodb").ObjectId;
 
 exports.add = catchAsync(async (req, res) => {
-  if (!(ObjectID.isValid(req.body.user) && ObjectID.isValid(req.body.product))) {
+  if (!ObjectID.isValid(req.body.product)) {
     throw new ApiError(httpStatus.NOT_FOUND, "data is  not valid");
   }
-  const data = await favourite.add({ ...req.body });
+  const body = { user: req.user.id, ...req.body };
+  const data = await favourite.add(body);
   res
     .status(httpStatus.CREATED)
     .send(new SuccessResponse(httpStatus.CREATED, "", data));
