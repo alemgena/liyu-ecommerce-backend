@@ -16,12 +16,13 @@ const feedBack = require("./feedBack");
 const productVariant = require("./variant");
 const productOption = require("./options");
 const optionValues = require("./optionValues");
-
+const chat=require('./chat')
 const addsView = require("./addsView");
 const Routers = {
   auth,
   product,
   adds,
+  chat,
   category,
   user,
   feedBack,
