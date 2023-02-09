@@ -1,4 +1,4 @@
-FROM  alpine:3.16.0
+FROM  node:16
 
 # Create app directory
 WORKDIR /
@@ -12,4 +12,3 @@ RUN npm install
 CMD [ "npm", "start" ]
 
 EXPOSE 5000
-ENTRYPOINT [ "./ecommerce" ]
