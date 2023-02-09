@@ -48,8 +48,7 @@ release:
     - ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY"
     - ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker pull $TAG_COMMIT"
     - ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker container rm -f $SERVICE_NAME || true"
-    - echo $TAG_COMMIT
-    - ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker run --env-file=$TAG_COMMIT/.env.test -d -p 5000:5000 --name $SERVICE_NAME $TAG_COMMIT"
+    - ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_IP "docker run --env-file=$CI_REGISTRY_IMAGE/.env.test -d -p 5000:5000 --name $SERVICE_NAME $TAG_COMMIT"
   only:
     refs:
       - staging
