@@ -5,7 +5,7 @@ const ApiError = require("../utils/ApiError");
 const { user } = require("../services");
 
 exports.changeUserPassword = catchAsync(async (req, res) => {
-  const id = req.user._id.toHexString();
+  const id = req.user.id;
   const data = await user.changePassword(id, req.body);
   res.status(httpStatus.OK).send(new SuccessResponse(httpStatus.OK, "", data));
 });
