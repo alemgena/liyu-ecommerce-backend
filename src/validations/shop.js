@@ -47,11 +47,11 @@ const update = {
         "string.base": "address must be a string",
         "string.empty": "address cannot be an empty field",
       }),
-      link: Joi.string().required().messages({
+      link: Joi.string().messages({
         "string.base": "link must be a string",
         "string.empty": "link cannot be an empty field",
       }),
-      phone_number: Joi.string().required().messages({
+      phone_number: Joi.string().messages({
         "string.empty": "phone number cannot be an empty field",
       }),
     }),

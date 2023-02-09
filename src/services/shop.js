@@ -75,7 +75,7 @@ exports.add = async (body) => {
           );
         }
         Object.assign(data, updateBody);
-        data.save();
+      await data.save();
         resolve(data);
       });
     });
