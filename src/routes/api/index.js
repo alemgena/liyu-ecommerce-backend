@@ -18,10 +18,12 @@ const shop=require("./shop")
 const addsView=require('./addsView')
 const productOption = require("./options");
 const optionValues = require("./optionValues");
+const chat=require('./chat')
 const Routers = {
   auth,
   product,
   adds,
+  chat,
   category,
   user,
   feedBack,
