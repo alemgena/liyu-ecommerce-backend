@@ -3,10 +3,9 @@ const ObjectID = require("mongodb").ObjectId;
 const SuccessResponse = require("../utils/successResponse");
 const ApiError = require("../utils/ApiError");
 const { user } = require("../services");
-const httpStatus = require("http-status");
 
 exports.changeUserPassword = catchAsync(async (req, res) => {
-  const id = req.user.id;
+  const id = req.user._id.toHexString();
   const data = await user.changePassword(id, req.body);
   res.status(httpStatus.OK).send(new SuccessResponse(httpStatus.OK, "", data));
 });
@@ -43,14 +42,4 @@ exports.update = catchAsync(async (req, res) => {
       edited: data,
     })
   );
-});
-
-exports.get = catchAsync(async (req, res) => {
-  const data = await user.get(req.params.id);
-  res.status(httpStatus.OK).send(new SuccessResponse(httpStatus.OK, "", data));
-});
-
-exports.list = catchAsync(async (req, res) => {
-  const data = await user.list();
-  res.status(httpStatus.OK).send(new SuccessResponse(httpStatus.OK, "", data));
 });
