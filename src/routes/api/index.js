@@ -14,14 +14,16 @@ const advertisement = require("./houseAdvertisement");
 const adds = require("./adds");
 const feedBack = require("./feedBack");
 const productVariant = require("./variant");
+const shop=require("./shop")
+const addsView=require('./addsView')
 const productOption = require("./options");
 const optionValues = require("./optionValues");
-
-const addsView = require("./addsView");
+const chat=require('./chat')
 const Routers = {
   auth,
   product,
   adds,
+  chat,
   category,
   user,
   feedBack,
@@ -29,6 +31,7 @@ const Routers = {
   socials,
   upload,
   newsLetter,
+  shop,
   spam,
   addsView,
   favourite,
